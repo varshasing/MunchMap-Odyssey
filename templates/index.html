@@ -10,7 +10,8 @@
 </head>
 <body class="bg-info text-white">
     <div class="text-center">
-        <h1 class="mt-5">Weather App</h1>
+        <h1 class="mt-5"></h1>
+        <b>Weather Tracker</b> <br><br>
         <form action="/" method="post">
             <div class="container">
                 <div class="row">
@@ -18,10 +19,10 @@
                         <input type="text" id="cityName" name="cityName" placeholder="City" class="form-control">
                     </div>
                     <div class = "col-sm">
-                        <input type="text" id="stateName" name="stateName" value="MA" class="form-control">
+                        <input type="text" id="stateName" name="stateName" placeholder="MA" class="form-control">
                     </div>
                     <div class = "col-sm">
-                        <input type="text" id="countryName" name="countryName" value="US" class="form-control">
+                        <input type="text" id="countryName" name="countryName" placeholder="US" class="form-control">
                     </div>
                 </div>
             </div> <br>
@@ -30,7 +31,11 @@
 
         <br>
         {% if data %}
-            <p>Current Temperature in {{city}} is {{ data }}°F</p>
+            <b>{{city}}</b>
+                <br>
+            {{data.description}} <br>
+            <img src="https://openweathermap.org/img/wn/{{data.icon}}@2x.png" alt="icon">
+            {{data.temperature}}°F
         {% endif %}
 
     </div>
