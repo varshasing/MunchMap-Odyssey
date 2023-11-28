@@ -1,26 +1,22 @@
-# from flask import Flask 
-# app = Flask(__name__) 
-
-# @app.route('/') 
-# def hello_world(): 
-#     return 'Flask is great!' 
-
-# if __name__ == '__main__': 
-#     app.run() 
-
-# # Defining the home page of our site
-# @app.route("/")  # this sets the route to this page
-# def home():
-# 	return "Hello! this is the main page <h1>HELLO</h1>"  # some basic inline html
-
-
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.route("/")
-def home():
-    return render_template("simplebrowser.html")
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-if __name__ == "__main__":
-    app.run()
+@app.route('/submit_form', methods=['POST'])
+def submit_form():
+    if request.method == 'POST':
+        email = request.form['email']  # Access the form data
+        
+        # Here you can process the submitted form data (e.g., save to a database, perform operations)
+        
+        return f'Thank you for submitting your email: {email}'
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+

@@ -1,9 +1,82 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Home page</title>
-    </head>
-    <body>
-        <h1>Home Page!</h1>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My Form with Flask</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-color: #FAFAF5;
+    }
+    
+    .btn-custom-color {
+            background-color: #918f8d;
+        }
+</style>
+<body>
+    <div class="container mt-5">
+        <div class="col-md-12 text-center">
+            <h1 class="text-secondary">Begin your adventure</h1>
+        </div>
+
+        <div class="col-md-12 text-center">
+            <p class="text-muted mb-2">Where are you going?</p> 
+        </div>
+
+        <form action="/submit_form" method="post" class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="startingpt" class="form-control custom-width" name="startingpt" placeholder="514 Park Drive, Boston, MA">
+                </div>
+            </div>
+        
+        
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="endingpt" class="form-control custom-width" name="endingpt" placeholder="87 Columbia Street, New York City, NY">
+                </div>
+            </div>
+            
+            <div class="col-12">
+                <div style="padding: 10px;"></div>
+            </div>
+
+
+            <div class="col-md-12 text-center">
+                <p class="text-muted mb-2">When?</p> 
+            </div>
+            
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="startingtime" class="form-control" id="exampleFormControlInput1" placeholder="12/29">
+                </div>
+            </div>
+
+
+            <div class="col-12">
+                <div style="padding: 10px;"></div>
+            </div>
+
+
+            <div class="col-md-12 text-center">
+                <p class="text-muted mb-2">What are you stopping for?</p>
+            </div>
+            
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="cuisine" class="form-control" id="exampleFormControlInput1" placeholder="Japanese food">
+                </div>
+            </div>
+
+
+            <div class="col-12 text-center">
+                <div style="padding: 10px;"></div>
+                <button type="submit" class="btn btn-custom-color">Submit</button>
+            </div>
+        </form>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
