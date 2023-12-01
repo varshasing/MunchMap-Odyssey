@@ -52,15 +52,9 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=400
             elif business["price"] == "$$$$" and userPrice == 4:
                 #print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
                 final_sorted.append(business)
-
-        last_list = []
-        # i want to make another list, only containting the top 3 results price, rating, name, address, and coordinates
+            
         for business in final_sorted:
-            last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"]})
-        for i in last_list[:3]:
-            print(i["name"])
-            print(type(i))
-        return last_list[:3]
+            print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
     else:
         print(f"Error: {response.status_code}, {response.text}")
 

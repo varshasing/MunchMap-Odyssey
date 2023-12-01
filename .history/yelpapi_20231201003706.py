@@ -38,29 +38,27 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=400
             #print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']}")
             sorted_businesses = sorted(data["businesses"], key=lambda x: x["rating"], reverse=True)
         
-        final_sorted = [] #empty list
-        for business in sorted_businesses:
-            if business["price"] == "$" and userPrice == 1:
-                #print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
-                final_sorted.append(business)
-            elif business["price"] == "$$" and userPrice == 2:
-                #print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
-                final_sorted.append(business)
-            elif business["price"] == "$$$" and userPrice == 3:
-                #print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
-                final_sorted.append(business)
-            elif business["price"] == "$$$$" and userPrice == 4:
-                #print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
-                final_sorted.append(business)
 
-        last_list = []
-        # i want to make another list, only containting the top 3 results price, rating, name, address, and coordinates
-        for business in final_sorted:
-            last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"]})
-        for i in last_list[:3]:
-            print(i["name"])
-            print(type(i))
-        return last_list[:3]
+        for business in sorted_businesses:
+            switch (userPrice):
+            case 1:
+                if business["price"] == "$":
+                    print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
+            case 2:
+                if business["price"] == "$$":
+                    print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
+            case 3:
+                if business["price"] == "$$$":
+                    print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
+            case 4:
+                if business["price"] == "$$$$":
+                    print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
+            default:
+                print("Please enter a valid price range (1-4)")
+        #for business in final_sorted_businesses:
+        #    print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
+            
+        
     else:
         print(f"Error: {response.status_code}, {response.text}")
 
@@ -69,10 +67,12 @@ if __name__ == "__main__":
     #api_key = 'riko09ZEG7R1wBgMqZbjv4uNtMHGBb-t1-2zFrGjAy7Ka2nRwVqD8t3-6GPJXMTfDJEiuQ0RlM24Qh6umi_rVm2Gs7szTULJDRYPfsBEtPYqo0if4YP1_-RLlb9eZXYx'
 
     # Define your search term and coordinates
-    search_term = "Italian" #Passed by front end
-    latitude = 37.7749  #passed by google maps api
-    longitude = -122.4194 #passed by google maps api
-    userPrice = 2   #passed by front end
+    search_term = "Italian"
+    latitude = 37.7749  # Replace with the desired latitude
+    longitude = -122.4194  # Replace with the desired longitude
+    userPrice = 2
+
+    # Perform the Yelp API search
 
     # this will need to be called AFTER user enters their search_term.
     search_yelp(api_key, search_term, userPrice, latitude, longitude,)

@@ -58,8 +58,7 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=400
         for business in final_sorted:
             last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"]})
         for i in last_list[:3]:
-            print(i["name"])
-            print(type(i))
+            print(i)
         return last_list[:3]
     else:
         print(f"Error: {response.status_code}, {response.text}")
