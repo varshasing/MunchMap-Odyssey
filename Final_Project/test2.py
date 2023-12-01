@@ -3,14 +3,24 @@ import googlemaps
 from datetime import datetime
 import polyline
 
-def get_directions(api_key, start_address, end_address, departure_date, departure_time):
+def geocode_address(gmaps, address):
+    geocode_result = gmaps.geocode(address)
+    if not geocode_result:
+        print(f"Geocoding failed for address: {address}")
+        return None
+    return geocode_result[0]['geometry']['location']
+
+def get_directions(api_key, start_address, end_address, departure_date, departure_time, waypoints = None):
     gmaps = googlemaps.Client(key=api_key)
+
+    start_location, end_location = None, None
 
     # Geocode start and end addresses and waypoint to get coordinates
     start_geocode = gmaps.geocode(start_address)
     end_geocode = gmaps.geocode(end_address)
+    waypoint_locations = [geocode_address(gmaps, waypoint) for waypoint in waypoints] if waypoints else None
 
-    if not start_geocode or not end_geocode:
+    if not start_geocode or not end_geocode or (waypoints and not all(waypoint_locations)):
         print("Geocoding failed. Please check your addresses.")
         return None
 
@@ -26,43 +36,62 @@ def get_directions(api_key, start_address, end_address, departure_date, departur
 
     # Get directions with the specified waypoint and include traffic data
     try:
-        directions_result = gmaps.directions(
+        directions_result = []
+
+        directions_result.append(gmaps.directions(
             start_location,
-            end_location,
+            waypoint_locations[0],
             mode="driving",
             departure_time=departure_datetime,
-        )
+        ))
+
+        for i in range(1, len(waypoint_locations)):
+            directions_result.append(gmaps.directions(
+                waypoint_locations[i-1],
+                waypoint_locations[i],
+                mode="driving",
+            ))
+
+        directions_result.append(gmaps.directions(
+            waypoint_locations[-1],
+            end_location,
+            mode="driving",
+            ))
+
+        total_directions_result = [result for sublist in directions_result for result in sublist]
 
         # Extract and print route details
-        if directions_result:
-            route = directions_result[0]['legs'][0]
-            print("\nStart Location:")
-            print("Latitude:", start_location['lat'])
-            print("Longitude:", start_location['lng'])
-            print("\nEnd Location:")
-            print("Latitude:", end_location['lat'])
-            print("Longitude:", end_location['lng'])
-            print("\nTrip Distance: ", route['distance']['text'])
+        for result in total_directions_result:
+            if 'legs' in result and result['legs']:
+                route = result['legs'][0]
+                print("\nStart Location:")
+                print("Latitude:", start_location['lat'])
+                print("Longitude:", start_location['lng'])
+                print("\nEnd Location:")
+                print("Latitude:", end_location['lat'])
+                print("Longitude:", end_location['lng'])
+                print("\nTrip Distance: ", route['distance']['text'])
 
-            # Check if 'duration_in_traffic' is available
-            if 'duration_in_traffic' in route:
-                print("Time Duration (in traffic): ", route['duration_in_traffic']['text'])
+                # Check if 'duration_in_traffic' is available
+                if 'duration_in_traffic' in route:
+                    print("Est. Time Duration (w/ traffic): ", route['duration_in_traffic']['text'])
+                    
+                print("Departure Time: ", departure_datetime)
 
-            print("Departure Time: ", departure_datetime)
-            if 'arrival_time' in route:
-                print("Arrival Time: ", datetime.fromtimestamp(route['arrival_time']['value']))
+                if 'arrival_time' in route:
+                    print("Arrival Time: ", datetime.fromtimestamp(route['arrival_time']['value']))
 
-            # Store coordinates in a list
-            coordinates_list = []
+                # Store coordinates in a list
+                coordinates_list = []
 
-            # Extract and print coordinates from each step
-            for step in route['steps']:
-                polyline_points = step['polyline']['points']
-                decoded_coordinates = polyline.decode(polyline_points)
+                # Extract and print coordinates from each step
+                for step in route['steps']:
+                    polyline_points = step['polyline']['points']
+                    decoded_coordinates = polyline.decode(polyline_points)
 
                 # Append all coordinates to the list
-                coordinates_list.extend(decoded_coordinates)
-
+                    coordinates_list.extend(decoded_coordinates)
+                    
             # print("\nCoordinates along the route:")
             # for coordinate in coordinates_list:
             #    print("Latitude:", coordinate[0])
@@ -98,8 +127,12 @@ if __name__ == "__main__":
     # Get departure time from user input
     departure_time = input("\nEnter departure time (e.g., 08:00 AM): \n")
 
+    # Get waypoints from user input (comma-separated addresses)
+    waypoints_input = input("\nEnter waypoints (if any, comma-separated): \n")
+    waypoints = [waypoint.strip() for waypoint in waypoints_input.split(',') if waypoint.strip()]
+
     # Get and display directions
-    coordinates_list = get_directions(api_key, start_address, end_address, departure_date, departure_time)
+    coordinates_list = get_directions(api_key, start_address, end_address, departure_date, departure_time, waypoints)
 
     # Now you can use the 'coordinates_list' variable elsewhere in your code
     if coordinates_list:
