@@ -59,6 +59,7 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=400
         for business in final_sorted:
             last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"], "id": business["id"]})
 
+        print("RAAHHHHHH")
         list_of_ids = []
         for i in last_list:
             list_of_ids.append(i["id"])

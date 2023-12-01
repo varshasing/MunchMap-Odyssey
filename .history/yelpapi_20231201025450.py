@@ -57,7 +57,7 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=400
         last_list = []
         # i want to make another list, only containting the top 3 results price, rating, name, address, and coordinates
         for business in final_sorted:
-            last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"], "id": business["id"]})
+            last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"], ["id"]})
 
         list_of_ids = []
         for i in last_list:

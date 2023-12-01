@@ -5,7 +5,7 @@ import os
 load_dotenv()
 api_key = os.getenv("YELP_KEY")
 
-def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=40000): # after I sort the data, I need to return the top 3 results as a list each time I call this function
+def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=20000): # after I sort the data, I need to return the top 3 results as a list each time I call this function
     # Yelp API endpoint for business search
     endpoint = "https://api.yelp.com/v3/businesses/search"
 
@@ -43,27 +43,20 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=400
             if business["price"] == "$" and userPrice == 1:
                 #print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
                 final_sorted.append(business)
-            elif business["price"] == "$$" and userPrice <= 2:
+            elif business["price"] == "$$" and userPrice == 2:
                 #print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
                 final_sorted.append(business)
-            elif business["price"] == "$$$" and userPrice <= 3:
+            elif business["price"] == "$$$" and userPrice == 3:
                 #print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
                 final_sorted.append(business)
-            elif business["price"] == "$$$$" and userPrice <= 4:
+            elif business["price"] == "$$$$" and userPrice == 4:
                 #print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
                 final_sorted.append(business)
-        final_sorted = sorted(final_sorted, key=lambda x: x["price"], reverse=True)
-        print(final_sorted)
+
         last_list = []
         # i want to make another list, only containting the top 3 results price, rating, name, address, and coordinates
         for business in final_sorted:
-            last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"], "id": business["id"]})
-
-        list_of_ids = []
-        for i in last_list:
-            list_of_ids.append(i["id"])
-        print(list_of_ids)
-
+            last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"]})
         for i in last_list[:3]:
             print(i["name"])
             print(type(i))
@@ -77,8 +70,8 @@ if __name__ == "__main__":
 
     # Define your search term and coordinates
     search_term = "Italian" #Passed by front end
-    latitude = 37.7749  #passed by google maps api
-    longitude = -122.4194 #passed by google maps api
+    latitude = 42.34924366296191  #passed by google maps api
+    longitude = --71.10598323136453 #passed by google maps api
     userPrice = 2   #passed by front end
 
     # this will need to be called AFTER user enters their search_term.

@@ -22,6 +22,7 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=400
         "longitude": longitude,
         "radius": radius,
         "price": "1,2,3,4"
+        "hours": "open_now";
         #"cuisine": cuisine
     }
 
@@ -32,6 +33,10 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=400
     if response.status_code == 200:
         # Parse the JSON response
         data = response.json()
+
+        hours = data.get("hours")
+        if hours:
+            print(hours)
 
         # need to sort the business data by rating
         for business in data["businesses"]:
@@ -57,15 +62,12 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=400
         last_list = []
         # i want to make another list, only containting the top 3 results price, rating, name, address, and coordinates
         for business in final_sorted:
-            last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"], "id": business["id"]})
-
-        list_of_ids = []
-        for i in last_list:
-            list_of_ids.append(i["id"])
-        print(list_of_ids)
+            last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"]})
+        
 
         for i in last_list[:3]:
             print(i["name"])
+            print(i("hours"))
             print(type(i))
         return last_list[:3]
     else:

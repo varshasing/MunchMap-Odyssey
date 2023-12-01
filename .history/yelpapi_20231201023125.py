@@ -53,17 +53,10 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=400
                 #print(f"{business['name']} ({business['rating']} stars) - {business['location']['address1']} - {business['price']}")
                 final_sorted.append(business)
         final_sorted = sorted(final_sorted, key=lambda x: x["price"], reverse=True)
-        print(final_sorted)
         last_list = []
         # i want to make another list, only containting the top 3 results price, rating, name, address, and coordinates
         for business in final_sorted:
-            last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"], "id": business["id"]})
-
-        list_of_ids = []
-        for i in last_list:
-            list_of_ids.append(i["id"])
-        print(list_of_ids)
-
+            last_list.append({"name": business["name"], "rating": business["rating"], "price": business["price"], "address": business["location"]["address1"], "coordinates": business["coordinates"], "hours": business["hours"]"})
         for i in last_list[:3]:
             print(i["name"])
             print(type(i))
@@ -76,9 +69,9 @@ if __name__ == "__main__":
     #api_key = 'riko09ZEG7R1wBgMqZbjv4uNtMHGBb-t1-2zFrGjAy7Ka2nRwVqD8t3-6GPJXMTfDJEiuQ0RlM24Qh6umi_rVm2Gs7szTULJDRYPfsBEtPYqo0if4YP1_-RLlb9eZXYx'
 
     # Define your search term and coordinates
-    search_term = "Italian" #Passed by front end
-    latitude = 37.7749  #passed by google maps api
-    longitude = -122.4194 #passed by google maps api
+    search_term = "food" #Passed by front end
+    latitude = 42.34924366296191  #passed by google maps api
+    longitude = -71.10598323136453 #passed by google maps api
     userPrice = 2   #passed by front end
 
     # this will need to be called AFTER user enters their search_term.
