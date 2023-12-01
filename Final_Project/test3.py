@@ -29,37 +29,25 @@ def get_directions(api_key, start_address, end_address, departure_date, departur
         print("Invalid date or time format.")
         return None
 
-    # Get directions with the specified waypoint and include traffic data
+    # Use Distance Matrix API to get travel distance and time
     try:
-        directions_result = gmaps.directions(
-            start_location,
-            end_location,
+        distance_matrix_result = gmaps.distance_matrix(
+            origins=[start_location],
+            destinations=[end_location, waypoint_location],
             mode="driving",
-            waypoints=[waypoint_location],
             departure_time=departure_datetime,
             traffic_model="best_guess"  # Options: "best_guess", "pessimistic", "optimistic"
         )
 
-        # Extract route details
-        if directions_result:
-            route = directions_result[0]['legs'][0]
+        # Extract travel distance and time
+        if distance_matrix_result and distance_matrix_result['status'] == 'OK':
+            overall_distance = distance_matrix_result['rows'][0]['elements'][0]['distance']['value']
+            overall_duration = distance_matrix_result['rows'][0]['elements'][0]['duration']['value']
 
-            # Store coordinates in a list
-            coordinates_list = []
-
-            # Extract coordinates from each step
-            for step in route['steps']:
-                polyline_points = step['polyline']['points']
-                decoded_coordinates = polyline.decode(polyline_points)
-
-                # Append all coordinates to the list
-                coordinates_list.extend(decoded_coordinates)
-
-            # Return the list of coordinates
-            return coordinates_list
+            return overall_distance, overall_duration
 
         else:
-            print("Directions request failed.")
+            print("Distance Matrix request failed.")
             return None
 
     except googlemaps.exceptions.HTTPError as e:
@@ -104,6 +92,8 @@ def generate_html_map(api_key, coordinates_list):
     </head>
     <body>
         <div id="map" style="height: 500px;"></div>
+        <p>Overall Distance: {{ overall_distance }} meters</p>
+        <p>Overall Duration: {{ overall_duration }} seconds</p>
     </body>
     </html>
     """)
@@ -117,7 +107,9 @@ def generate_html_map(api_key, coordinates_list):
         api_key=api_key,
         coordinates=coordinates_list,
         center_lat=center_lat,
-        center_lng=center_lng
+        center_lng=center_lng,
+        overall_distance=overall_distance,
+        overall_duration=overall_duration
     )
 
     return html_content
@@ -135,10 +127,12 @@ def index():
         departure_time = request.form['departure_time']
         waypoint_name = request.form['waypoint_name']
 
-        # Get directions
-        coordinates_list = get_directions(api_key, start_address, end_address, departure_date, departure_time, waypoint_name)
+        # Get directions and distance matrix data
+        directions_data = get_directions(api_key, start_address, end_address, departure_date, departure_time, waypoint_name)
 
-        if coordinates_list:
+        if directions_data:
+            overall_distance, overall_duration = directions_data
+
             # Generate HTML map
             html_content = generate_html_map(api_key, coordinates_list)
             return html_content
