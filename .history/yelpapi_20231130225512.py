@@ -11,7 +11,7 @@ def search_yelp(api_key, search_term, latitude, longitude, radius=400):
 
     # Set up the parameters for the search
     params = {
-        "term": search_term,
+        "search_term": search_term,
         "latitude": latitude,
         "longitude": longitude,
         "radius": radius,
