@@ -4,7 +4,7 @@ from weather import main as get_weather
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'Post'])
-def index():
+def weather():
     data = None
     city = None
     if request.method == 'POST':
@@ -12,7 +12,7 @@ def index():
         state = request.form['stateName']
         country = request.form['countryName']
         data = get_weather(city, state, country)
-    return render_template('index.html', data=data, city=city)
+    return render_template('weather.html', data=data, city=city)
 
 if __name__ == '__main__':
     app.run(debug=True)
