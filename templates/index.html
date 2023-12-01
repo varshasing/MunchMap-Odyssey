@@ -12,13 +12,32 @@
         .btn-custom-color {
             background-color: #918f8d;
         }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333; 
+        }
+        input[type="time"] {
+            padding: 6px;
+            border: 1px solid #d0d0d6; 
+            border-radius: 4px; /* Rounded corners */
+            font-size: 16px; 
+            color: #2b2b2b;
+        }
+        .h1 {
+            font-size: 2.5rem; 
+            color: #2b2b2b; 
+            /* font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;  */
+        }
+    </style>
     </style>
 </head>
 
 <body>
     <div class="container mt-5">
         <div class="text-center">
-            <h1 class="text-secondary">Begin your adventure</h1>
+            <p class="h1">Begin your adventure</p>
             <div style="padding: 10px;"></div>
             <p class="text-muted mb-2">Where are you going?</p>
         </div>
@@ -69,43 +88,7 @@
             <!-- hour, minute, and am/pm field -->
             <div class="col-md-1">
                 <div class="form-group">
-                    <select class="form-control" id="hour">
-                      <option value="" disabled selected>Hour</option>
-                      <option>01</option>
-                      <option>02</option>
-                      <option>03</option>
-                      <option>04</option>
-                      <option>05</option>
-                      <option>06</option>
-                      <option>07</option>
-                      <option>08</option>
-                      <option>09</option>
-                      <option>10</option>
-                      <option>11</option>
-                      <option>12</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="col-md-1">
-                <div class="form-group">
-                    <select class="form-control" id="minute">
-                      <option value="" disabled selected>Minute</option>
-                      <option>00</option>
-                      <option>15</option>
-                      <option>30</option>
-                      <option>45</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-md-1">
-                <div class="form-group">
-                    <select class="form-control" id="ampm">
-                      <option value="" disabled selected>AM/PM</option>
-                      <option>AM</option>
-                      <option>PM</option>
-                    </select>
+                    <input type="time" id="departure_time" name="departure_time" required>
                 </div>
             </div>
 
@@ -199,8 +182,12 @@
                                         </div>
                                     </div>
                                     <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <img src="{{ url_for('static', filename='small_0.png') }}" alt="Yelp Stars">
+                                        <div class="col-auto">                                          
+                                            <!-- {% if starRating > 3 %}
+                                                <img src="{{ url_for('static', filename='small_0.png') }}" alt="Yelp Stars">
+                                            {% else %}
+                                                <img src="{{ url_for('static', filename='small_0.png') }}" alt="Yelp Stars">
+                                            {% endif %} -->
                                         </div>      
                                         <div class="col-auto">
                                             <p class="mb-1">{{restBudget1}}</p>
