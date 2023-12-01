@@ -67,7 +67,7 @@ def result():
     duration = 30000
     data = get_weather(start_lat, start_lon, end_lat, end_lon, month, day, hr, minute, duration)
         
-    return render_template('result.html', data=data, session=session)
+    return render_template('result.html', data=data, session=session, hr=hr, minute=minute)
 
 if __name__ == '__main__':
     app.run(debug=True)

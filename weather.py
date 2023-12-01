@@ -113,6 +113,7 @@ if __name__ == "__main__":
     print(get_lat_lon('New York', 'NY', 'US', api_key))
     
     
-    print(main2(start_lat, start_lon, end_lat, end_lon, 12, 2, 2, 0, 30000))
+    print(main2(start_lat, start_lon, end_lat, end_lon, 12, 4, 4, 53, 0))
+    print(get_dt(12, 4, 4, 53))
     
     print(getDate('2023-12-05'))
