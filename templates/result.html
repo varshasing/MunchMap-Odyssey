@@ -1,1 +1,54 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My Form with Flask</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FAFAF5;
+        }
+        
+        .btn-custom-color {
+            background-color: #918f8d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+
+        <div class="list-group">
+            <label class="list-group-item">
+
+                <!-- first restaurant -->
+                <div class="row align-items-center">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-auto">
+                                <h5 class="mb-1">{{session["date"]}}</h5>
+                            </div>
+                            <div class="col-auto">
+                                <p class="mb-1">hi</p>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                hello
+                            </div>      
+                            <div class="col-auto">
+                                <p class="mb-1">hi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </label>
+
+        </div>
+        
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

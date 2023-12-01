@@ -12,27 +12,46 @@
         .btn-custom-color {
             background-color: #918f8d;
         }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333; 
+        }
+        input[type="time"] {
+            padding: 6px;
+            border: 1px solid #d0d0d6; 
+            border-radius: 4px; /* Rounded corners */
+            font-size: 16px; 
+            color: #2b2b2b;
+        }
+        .h1 {
+            font-size: 2.5rem; 
+            color: #2b2b2b; 
+            /* font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;  */
+        }
+    </style>
     </style>
 </head>
 
 <body>
     <div class="container mt-5">
         <div class="text-center">
-            <h1 class="text-secondary">Begin your adventure</h1>
+            <p class="h1">Begin your adventure</p>
             <div style="padding: 10px;"></div>
             <p class="text-muted mb-2">Where are you going?</p>
         </div>
         <!-- starting and ending point submission -->
-        <form id="firstForm" action="/submit_form" method="post" class="row justify-content-center">
+        <form id="firstForm" action="/" method="post" class="row justify-content-center">
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="startingpt" class="form-control custom-width" name="startingpt" placeholder="514 Park Drive, Boston, MA">
+                    <input type="startingpt" class="form-control custom-width" name="startingpt" placeholder="514 Park Drive, Boston, MA" value = {{request.form.get('startingpt', '')}}>
                 </div>
             </div>
         
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="endingpt" class="form-control custom-width" name="endingpt" placeholder="Broadway & W 116th St, New York City, NY">
+                    <input type="endingpt" class="form-control custom-width" name="endingpt" placeholder="Broadway & W 116th St, New York City, NY" value = {{request.form.get('endingpt', '')}}>
                 </div>
             </div>
             
@@ -48,7 +67,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <input type="date" class="form-control custom-width" name="date" id="customDate" placeholder="Select date"
-                           min="{{min_date}}" max="{{max_date}}">
+                           min="{{min_date}}" max="{{max_date}}" value = {{request.form.get('date', '')}}>
                 </div>
             </div>
             
@@ -69,43 +88,7 @@
             <!-- hour, minute, and am/pm field -->
             <div class="col-md-1">
                 <div class="form-group">
-                    <select class="form-control" id="hour">
-                      <option value="" disabled selected>Hour</option>
-                      <option>01</option>
-                      <option>02</option>
-                      <option>03</option>
-                      <option>04</option>
-                      <option>05</option>
-                      <option>06</option>
-                      <option>07</option>
-                      <option>08</option>
-                      <option>09</option>
-                      <option>10</option>
-                      <option>11</option>
-                      <option>12</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="col-md-1">
-                <div class="form-group">
-                    <select class="form-control" id="minute">
-                      <option value="" disabled selected>Minute</option>
-                      <option>00</option>
-                      <option>15</option>
-                      <option>30</option>
-                      <option>45</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-md-1">
-                <div class="form-group">
-                    <select class="form-control" id="ampm">
-                      <option value="" disabled selected>AM/PM</option>
-                      <option>AM</option>
-                      <option>PM</option>
-                    </select>
+                    <input type="time" id="departure_time" name="departure_time" value = {{request.form.get('departure_time', '')}} required >
                 </div>
             </div>
 
@@ -120,7 +103,7 @@
             <!-- cuisine field -->
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="cuisine" id="cuisineField" class="form-control custom-width" name="cuisine" placeholder="Japanese Food">
+                    <input type="cuisine" id="cuisineField" class="form-control custom-width" name="cuisine" placeholder="Japanese Food" value = {{request.form.get('cuisine', '')}}>
                 </div>
             </div>
 
@@ -128,12 +111,12 @@
             <!-- budget field -->
             <div class="col-md-1">
                 <div class="form-group">
-                    <select class="form-control" id="budget">
-                      <option value="" disabled selected>Budget</option>
-                      <option>$</option>
-                      <option>$$</option>
-                      <option>$$$</option>
-                      <option>$$$$</option>
+                    <select class="form-control" id="budget" name="budget">
+                        <option value="" disabled selected>Budget</option>
+                        <option value="$" {% if request.form.get('budget', '') == '$' %}selected{% endif %}>$</option>
+                        <option value="$$" {% if request.form.get('budget', '') == '$$' %}selected{% endif %}>$$</option>
+                        <option value="$$$" {% if request.form.get('budget', '') == '$$$' %}selected{% endif %}>$$$</option>
+                        <option value="$$$$" {% if request.form.get('budget', '') == '$$$$' %}selected{% endif %}>$$$$</option>
                     </select>
                 </div>
             </div>
@@ -152,7 +135,7 @@
         <!-- restaurant choices -->
         <form id="secondForm" action="/result" method="post" class="row justify-content-center">
             <div class="col-md-6 mx-auto">
-                <div id="secondSubmitWrapper" style="display: none;">
+                <div id="secondSubmitWrapper">
                     <div class="list-group">
                         <label class="list-group-item">
 
@@ -183,39 +166,11 @@
                             </div>
                         </label>
 
-                        <!-- second restaurant -->
-                        <label class="list-group-item">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <input class="form-check-input me-1" type="radio" name="options" value="option1">
-                                </div>
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col-auto">
-                                            <h5 class="mb-1">{{restName1}}</h5>
-                                        </div>
-                                        <div class="col-auto">
-                                            <p class="mb-1">{{restDuration1}} hour(s) away, {{restDistance1}} mile(s)</p>
-                                        </div>
-                                    </div>
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <img src="{{ url_for('static', filename='small_0.png') }}" alt="Yelp Stars">
-                                        </div>      
-                                        <div class="col-auto">
-                                            <p class="mb-1">{{restBudget1}}</p>
-                                        </div>
-                                    </div>
-                                    <small>Open: {{restHours1}} | {{restAddress1}}</small>
-                                </div>
-                            </div>
-                        </label>
-
                         <!-- third restaurant -->
                         <label class="list-group-item">
                             <div class="row align-items-center">
                                 <div class="col-auto">
-                                    <input class="form-check-input me-1" type="radio" name="options" value="option1">
+                                    <input class="form-check-input me-1" type="radio" name="options" value="option3">
                                 </div>
                                 <div class="col">
                                     <div class="row">
@@ -252,23 +207,6 @@
             <div class="col-12">
                 <div style="padding: 10px;"></div>
             </div>
-
-            <!-- JavaScript to toggle visibility -->
-            <script>
-                document.getElementById('firstSubmit').addEventListener('click', function (event) {
-                    event.preventDefault();
-                    var cuisineValue = document.getElementsByName('cuisine')[0].value;
-            
-                    if (cuisineValue !== '') {
-                        document.getElementById('secondForm').style.display = 'block';
-                        document.getElementById('secondSubmitWrapper').style.display = 'block';
-                    } else {
-                        // alert('Please fill out the cuisine field before proceeding.');
-                        document.getElementById('secondForm').style.display = 'block';
-                        document.getElementById('secondSubmitWrapper').style.display = 'block';
-                    }
-                });
-            </script>
             
 
         </form>
