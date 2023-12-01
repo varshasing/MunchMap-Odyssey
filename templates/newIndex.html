@@ -35,6 +35,7 @@
 </head>
 
 <body>
+
     <div class="container mt-5">
         <div class="text-center">
             <p class="h1">Begin your adventure</p>
@@ -113,10 +114,10 @@
                 <div class="form-group">
                     <select class="form-control" id="budget" name="budget">
                         <option value="" disabled selected>Budget</option>
-                        <option value="$" {% if request.form.get('budget', '') == '$' %}selected{% endif %}>$</option>
-                        <option value="$$" {% if request.form.get('budget', '') == '$$' %}selected{% endif %}>$$</option>
-                        <option value="$$$" {% if request.form.get('budget', '') == '$$$' %}selected{% endif %}>$$$</option>
-                        <option value="$$$$" {% if request.form.get('budget', '') == '$$$$' %}selected{% endif %}>$$$$</option>
+                        <option value='1' {% if request.form.get('budget','') == '1' %}selected{% endif %}>$</option>
+                        <option value='2' {% if request.form.get('budget','') == '2' %}selected{% endif %}>$$</option>
+                        <option value='3' {% if request.form.get('budget','') == '3' %}selected{% endif %}>$$$</option>
+                        <option value='4' {% if request.form.get('budget','') == '4' %}selected{% endif %}>$$$$</option>
                     </select>
                 </div>
             </div>
