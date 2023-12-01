@@ -95,4 +95,9 @@ if __name__ == "__main__":
     
     start_lat, start_lon = get_lat_lon('Boston', 'MA', 'US', api_key)
     end_lat, end_lon = get_lat_lon('New York', 'NY', 'US', api_key)
+    
+    print(get_lat_lon('Boston', 'MA', 'US', api_key))
+    print(get_lat_lon('New York', 'NY', 'US', api_key))
+    
+    
     print(main2(start_lat, start_lon, end_lat, end_lon, 11, 29, 2, 0, 30000))
