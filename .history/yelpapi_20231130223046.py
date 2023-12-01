@@ -34,7 +34,7 @@ def search_yelp(api_key, term, latitude, longitude, radius=400):
 
             categories = [category['title'] for category in business['categories']]
             print(f"categories: {', '.join(categories)}")
-            print(f"Name: {business['name']}")
+            #print(f"Name: {business['name']}")
             #print(f"Rating: {business['rating']}")
             #print(f"Address: {', '.join(business['location']['display_address'])}")
             print("\n")

@@ -1,6 +1,6 @@
 import requests
 
-def search_yelp(api_key, term, latitude, longitude, radius=400):
+def search_yelp(api_key, term, latitude, longitude, radius=100):
     # Yelp API endpoint for business search
     endpoint = "https://api.yelp.com/v3/businesses/search"
 
@@ -34,7 +34,7 @@ def search_yelp(api_key, term, latitude, longitude, radius=400):
 
             categories = [category['title'] for category in business['categories']]
             print(f"categories: {', '.join(categories)}")
-            print(f"Name: {business['name']}")
+            #print(f"Name: {business['name']}")
             #print(f"Rating: {business['rating']}")
             #print(f"Address: {', '.join(business['location']['display_address'])}")
             print("\n")
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     api_key = 'riko09ZEG7R1wBgMqZbjv4uNtMHGBb-t1-2zFrGjAy7Ka2nRwVqD8t3-6GPJXMTfDJEiuQ0RlM24Qh6umi_rVm2Gs7szTULJDRYPfsBEtPYqo0if4YP1_-RLlb9eZXYx'
 
     # Define your search term and coordinates
-    search_term = "Italian"
+    search_term = "restaurants"
     latitude = 37.7749  # Replace with the desired latitude
     longitude = -122.4194  # Replace with the desired longitude
 
