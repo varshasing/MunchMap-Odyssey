@@ -65,7 +65,7 @@ def get_forecast(lat, lon, API_key, dt):
         description = forecast.get('weather')[0].get('description'),
         icon = forecast.get('weather')[0].get('icon'),
         temperature = int((forecast.get('main')).get('temp')),
-        precipitation = forecast.get('pop'),
+        precipitation = int(forecast.get('pop')*100),
         city = city_,
         state = state_,
         time = forecast.get('dt_txt')
