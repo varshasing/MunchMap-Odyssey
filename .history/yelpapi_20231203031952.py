@@ -1,16 +1,11 @@
 import requests
 from dotenv import load_dotenv
 import os
-from gmaps.py import get_two_point_data
 
 load_dotenv()
 api_key = os.getenv("YELP_KEY")
 
-def getRestaurantData(start_coordinates, end_coordinates, departure_time, departure_Date, restaurantList):
-    restaurantDataList = []
-    for i in restaurantList:
-        restaurantDataList.append(get_two_point_data(start_coordinates, end_coordinates, departure_time, departure_Date, restaurantList[i]))
-    return restaurantDataList
+
 
 def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=1000):
 

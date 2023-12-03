@@ -6,11 +6,10 @@ from gmaps.py import get_two_point_data
 load_dotenv()
 api_key = os.getenv("YELP_KEY")
 
-def getRestaurantData(start_coordinates, end_coordinates, departure_time, departure_Date, restaurantList):
+def getRestaurantData(start_lat, start_long, end_lat, end_long, departure_time, restaurantList):
     restaurantDataList = []
-    for i in restaurantList:
-        restaurantDataList.append(get_two_point_data(start_coordinates, end_coordinates, departure_time, departure_Date, restaurantList[i]))
-    return restaurantDataList
+    for i in range restaurantList:
+        restaurantDataList.append(get_two_point_data(start_coordinates, end_coordinates, departure_time, ))
 
 def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=1000):
 

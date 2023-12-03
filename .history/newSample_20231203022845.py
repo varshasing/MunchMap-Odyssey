@@ -44,7 +44,6 @@ def index():
     userPrice = int(budget)
     
     # this will need to be called AFTER user enters their search_term.
-
     yelpList = search_yelp(api_key, search_term, userPrice, latitude, longitude,)
     
     return render_template('newIndex.html', min_date=today, max_date=five_days_later, restaurants=yelpList, formFilled=formFilled)
