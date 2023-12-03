@@ -28,6 +28,7 @@ def split_coordinates(start_address, end_address):
 
     route = directions_result[0]['legs'][0]
     coordinates_list = []
+    five_coord_list = []
 
     for step in route['steps']:
             polyline_points = step['polyline']['points']
@@ -43,9 +44,11 @@ def split_coordinates(start_address, end_address):
     part3 = coordinates_list[3 * part_length]
     end_point = coordinates_list[-1]
 
-    return start_point, part1, part2, part3, end_point
+    five_coord_list = [start_point, part1, part2, part3, end_point]
 
-def get_route_data(start_address, end_address, departure_date, departure_time):
+    return five_coord_list
+
+def get_two_point_data(start_address, end_address, departure_date, departure_time):
     return get_directions(api_key, start_address, end_address, departure_date, departure_time)
 
 def get_directions(api_key, start_address, end_address, departure_date, departure_time):
@@ -106,12 +109,84 @@ def get_directions(api_key, start_address, end_address, departure_date, departur
     print(f"Total Trip Duration (w/ traffic): {total_duration_hours} hours {total_duration_minutes} minutes")
 
     print("Departure Time: ", departure_datetime)
+
+    trip_dict = {
+        "distance": total_trip_distance,
+        "hours": total_duration_hours,
+        "minutes": total_duration_minutes
+    }
  
-    return total_trip_distance, total_duration_hours, total_duration_minutes
+    return trip_dict
+
+def get_directions_waypoint(api_key, start_address, end_address, departure_date, departure_time):
+    gmaps = googlemaps.Client(key=api_key)
+
+    start_location = geocode_address(gmaps, start_address)
+    end_location = geocode_address(gmaps, end_address)
+    waypoint_locations = [geocode_address(gmaps, waypoint) for waypoint in waypoints] if waypoints else []
+
+    if not start_location or not end_location or (waypoints and not all(waypoint_locations)):
+        print("Geocoding failed. Please check your addresses.")
+        return None
+
+    # Combine date and time strings into a single datetime object
+    try:
+        departure_datetime = datetime.strptime(departure_date + " " + departure_time, "%Y-%m-%d %H:%M")
+    except ValueError:
+        print("Invalid date or time format.")
+        return None
+
+    total_directions_result = []
+    total_duration_traffic = 0  # Total duration considering traffic
+
+    # Directions between waypoints
+    for i in range(len(waypoint_locations) + 1):
+        start = start_location if i == 0 else waypoint_locations[i - 1]
+        end = end_location if i == len(waypoint_locations) else waypoint_locations[i]
+
+        directions_result = gmaps.directions(
+            start,
+            end,
+            mode="driving",
+            departure_time=departure_datetime,
+        )
+
+        total_directions_result.append(directions_result[0])
+
+        route = directions_result[0]['legs'][0]
+
+        print(f"\nFrom {start_address if i == 0 else waypoints[i - 1]} to "
+              f"{end_address if i == len(waypoint_locations) else waypoints[i]}:")
+        print("Distance:", route['distance']['text'])
+
+        # Check if 'duration_in_traffic' is available
+        if 'duration_in_traffic' in route:
+            duration_traffic = route['duration_in_traffic']['value']
+            total_duration_traffic += duration_traffic
+            print("Est. Time Duration (w/ traffic): ", route['duration_in_traffic']['text'])
+        else:
+            duration = route['duration']['value']
+            total_duration_traffic += duration
+            print("Est. Time Duration: ", route['duration']['text'])
+
+    # Calculate and print total trip distance and duration
+    total_trip_distance = sum(result['legs'][0]['distance']['value'] for result in total_directions_result) / 1609.34
+    total_duration_hours, total_duration_minutes = divmod(total_duration_traffic // 60, 60)
+    print("\nTotal Trip Distance:", total_trip_distance, "mi")
+    print(f"Total Trip Duration (w/ traffic): {total_duration_hours} hours {total_duration_minutes} minutes")
+
+    print("Departure Time: ", departure_datetime)
+
+    trip_dict = {
+        "distance": total_trip_distance,
+        "hours": total_duration_hours,
+        "minutes": total_duration_minutes
+    }
+ 
+    return trip_dict
+
 
 if __name__ == "__main__":
-    api_key = "AIzaSyBiGus_zgx-S8FzZKLFlidy8jFtsbrABhU"
-
     # Get start and end addresses from user input
     start_address = input("Enter start point:\n")
     end_address = input("\nEnter end point:\n")
@@ -123,8 +198,7 @@ if __name__ == "__main__":
     departure_time = input("\nEnter departure time (14:00):\n")
 
     # Get waypoints from user input (comma-separated addresses)
-    waypoints_input = input("\nEnter waypoints (if any, comma-separated latitude,longitude):\n")
-    waypoints = [{'lat': float(coord.split(',')[0]), 'lng': float(coord.split(',')[1])} for coord in waypoints_input.split(',') if coord.strip()]
+    waypoints = []
 
     coordinates_list = get_directions(api_key, start_address, end_address, departure_date, departure_time)
 
