@@ -11,7 +11,13 @@
         }
         
         .btn-custom-color {
-            background-color: #b0adab;
+            background-color: #ffc2bc;
+        }
+        .card-custom-color {
+            background-color: #ffffff;
+            border: 1px solid #2b2b2b; 
+            border-radius: 40px;
+            min-width: 250px;
         }
     </style>
 </head>
@@ -25,15 +31,53 @@
             </div>
             <div style="padding: 10px;"></div>
         </div>
-        {% if option %}
-            <div class="col-md-12 text-center">
-                <h4>{{startingpt}} starting point &rarr; way point &rarr; {{endingpt}} ending point</h4>
-            </div> 
+        {% if option %}            
+            <div class="row justify-content-center">
+                <div class="col-auto text-center">
+                    <div class="card-custom-color">
+                        <h5 class="card-title" style="margin-top: 5px">  starting point  {{startingpt}}</h5>
+                    </div>
+                </div>
+
+                <div class="col-md-1 text-center" style="margin-top: 5px; margin-right: -40px; margin-left: -40px">
+                    <p class="text-muted">&rarr;</p>
+                </div>
+
+                <div class="col-auto text-center">
+                    <div class="card-custom-color">
+                        <h5 class="card-title" style="margin-top: 5px">  way point  </h5>
+                    </div>
+                </div>
+
+                <div class="col-md-1 text-center" style="margin-top: 5px; margin-right: -40px; margin-left: -40px">
+                    <p class="text-muted">&rarr;</p>
+                </div>
+
+                <div class="col-auto text-center">
+                    <div class="card-custom-color">
+                        <h5 class="card-title" style="margin-top: 5px">  ending point  {{endingpt}}</h5>
+                    </div>
+                </div>
+            </div>
 
         {% else %}
-            <div class="col-md-12 text-center">
-                <h4>{{startingpt}} starting point &rarr; {{endingpt}} ending point</h4>
-            </div>        
+        <div class="row justify-content-center">
+            <div class="col-auto text-center">
+                <div class="card-custom-color">
+                    <h5 class="card-title" style="margin-top: 5px">  starting point  {{startingpt}}</h5>
+                </div>
+            </div>
+
+            <div class="col-md-1 text-center" style="margin-top: 5px; margin-right: -40px; margin-left: -40px">
+                <p class="text-muted">&rarr;</p>
+            </div>
+
+            <div class="col-auto text-center">
+                <div class="card-custom-color">
+                    <h5 class="card-title" style="margin-top: 5px">  ending point  {{endingpt}}</h5>
+                </div>
+            </div>
+        </div>      
 
         {% endif %}
 
@@ -42,7 +86,7 @@
         </div>
 
         <div class="col-md-12 text-center">
-            <p class="font-weight-normal">Duration: 4 Hours, 32 Minutes  |  213 Miles</p> 
+            <h5>4 Hours, 32 Minutes  |  213 Miles</h5>
         </div>
         
         <div class="col-12">
@@ -57,7 +101,7 @@
                     <div class="col">
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <h5 class="mb-1">{{data['startData'].city}}, {{data['startData'].state}}</h5>
+                                <h6 class="mb-1">{{data['startData'].city}}, {{data['startData'].state}}</h6>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -83,7 +127,7 @@
                     <div class="col">
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <h5 class="mb-1">{{data['endData'].city}}, {{data['endData'].state}}</h5>
+                                <h6 class="mb-1">{{data['endData'].city}}, {{data['endData'].state}}</h6>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -109,7 +153,7 @@
           <div class="col-12 text-center">
             <div style="padding: 10px;"></div>
                 <!-- <button id="thirdSubmit" action="/" type="submit" class="btn btn-custom-color">Return to planner</button> -->
-                <a href="/" class="btn btn-custom-color">Go Back to Homepage</a>
+                <a href="/" class="btn btn-custom-color">Return to planner</a>
             </div>
     </div>
     

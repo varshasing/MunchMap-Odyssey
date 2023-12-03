@@ -10,7 +10,7 @@
             background-color: #FAFAF5;
         }
         .btn-custom-color {
-            background-color: #b0adab; 
+            background-color: #ffc2bc; 
         }
         label {
             display: block;
@@ -41,8 +41,8 @@
             <div class="col-md-12">
                 <img src="{{ url_for('static', filename='bannar1.png') }}" alt="banner" style="max-width: 60%;">                                       
             </div>
-            <div style="padding: 10px;"></div>
-            <p class="text-muted mb-2">Where are you going?</p>
+            <h5>Where are you going?</h5>
+            <div style="padding: 5px;"></div>
         </div>
         
         <!-- starting and ending point submission -->
@@ -70,7 +70,8 @@
 
             <!-- date field -->
             <div class="col-md-12 text-center">
-                <p class="text-muted mb-2">When?</p> 
+                <h5>When?</h5> 
+                <div style="padding: 5px;"></div>
             </div>
 
             <div class="col-md-2">
@@ -106,7 +107,8 @@
             </div>
 
             <div class="col-md-12 text-center">
-                <p class="text-muted mb-2">What are you stopping for?</p> 
+                <h5>What are you stopping for?</h5> 
+                <div style="padding: 5px;"></div>
             </div>
             
             <!-- cuisine field -->
@@ -129,30 +131,6 @@
                     </select>
                 </div>
             </div>
-
-            <script>
-                // Example starter JavaScript for disabling form submissions if there are invalid fields
-                (function () {
-                'use strict'
-    
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.querySelectorAll('.needs-validation')
-    
-                // Loop over them and prevent submission
-                Array.prototype.slice.call(forms)
-                    .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                        }
-    
-                        form.classList.add('was-validated')
-                    }, false)
-                    })
-                })()
-            </script>
-
 
             <div class="col-12 text-center">
                 <div style="padding: 10px;"></div>

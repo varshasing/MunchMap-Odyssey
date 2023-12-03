@@ -12,13 +12,13 @@ def index():
     today = datetime.date.today().isoformat()
     five_days_later = (datetime.date.today() + datetime.timedelta(days=5)).isoformat()
     # Replace 'YOUR_API_KEY' with your actual Yelp API key
-    api_key = 'riko09ZEG7R1wBgMqZbjv4uNtMHGBb-t1-2zFrGjAy7Ka2nRwVqD8t3-6GPJXMTfDJEiuQ0RlM24Qh6umi_rVm2Gs7szTULJDRYPfsBEtPYqo0if4YP1_-RLlb9eZXYx'
+    api_key = 'XtBEd799ZH3FUzVDWVNHO9eUYrpzzs5Gvz9ps6SfowXMtsyS53dp0_iUajAKAuQKpis1nqYz0u0m4sAk_MSq3BY2B7uZlv-UXLtMNjNLAgDgusF6cXPo71fRuD1sZXYx'
 
     # Define your search term and coordinates
     
     search_term = "Italian" #Passed by front end
-    latitude = 37.7749  #passed by google maps api
-    longitude = -122.4194 #passed by google maps api
+    latitude = [0, 37.7749, 30.34752626717497, 34.0522, 0]  #passed by google maps api
+    longitude = [0, -122.4194, -97.85619684525354, -118.2437 ,0] #passed by google maps api
     userPrice = 2   #passed by front end
     
     cuisine = search_term
