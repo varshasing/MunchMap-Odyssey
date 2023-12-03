@@ -46,10 +46,10 @@ def split_coordinates(start_address, end_address):
 
     return start_point, part1, part2, part3, end_point
 
-def get_route_data(start_address, end_address, waypoint_lat, waypoint_lng, departure_date, departure_time):
-    return get_directions(api_key, start_address, end_address, waypoint_lat, waypoint_lng, departure_date, departure_time)
+def get_route_data(start_address, end_address, departure_date, departure_time):
+    return get_directions(api_key, start_address, end_address, departure_date, departure_time)
 
-def get_directions(api_key, start_address, end_address, waypoint_lat, waypoint_lng, departure_date, departure_time):
+def get_directions(api_key, start_address, end_address, departure_date, departure_time):
     gmaps = googlemaps.Client(key=api_key)
 
     start_location = geocode_address(gmaps, start_address)
@@ -124,12 +124,10 @@ if __name__ == "__main__":
     departure_time = input("\nEnter departure time (14:00):\n")
 
     # Get waypoints from user input (comma-separated addresses)
-    waypoint_lat, waypoint_lng = "42", "-71"
-    waypoints = [waypoint_lat, waypoint_lng]
+    waypoints_input = input("\nEnter waypoints (if any, comma-separated latitude,longitude):\n")
+    waypoints = [{'lat': float(coord.split(',')[0]), 'lng': float(coord.split(',')[1])} for coord in waypoints_input.split(',') if coord.strip()]
 
-    coordinates_list = get_directions(api_key, start_address, end_address, waypoint_lat, waypoint_lng, departure_date, departure_time)
-
-
+    coordinates_list = get_directions(api_key, start_address, end_address, departure_date, departure_time)
 
     if coordinates_list:
         print(split_coordinates(start_address, end_address))
