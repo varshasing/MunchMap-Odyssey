@@ -54,6 +54,13 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=100
         retList.append(list_one[-1])
         retList.append(list_two[-1])
         retList.append(list_three[-1])
+        for i in retList:
+                print(i["name"])
+                print(i["rating"])
+                print(i["hours"]["start"])
+                print(i["city"])
+                print(i["state"])
+                print(i["address"])
         return retList
     
     # unideal case, all lists are empty and user has to redo their search
@@ -64,12 +71,33 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=100
     # check if any of the two lists are empty. If they both are empty, return whatever I have from the non-empty list
     if len(list_one) == 0 and len(list_two) == 0:
         retList.append(list_three)
+        for i in retList:
+                print(i["name"])
+                print(i["rating"])
+                print(i["hours"])
+                print(i["city"])
+                print(i["state"])
+                print(i["address"])
         return retList
     elif len(list_one) == 0 and len(list_three) == 0:
         retList.append(list_two)
+        for i in retList:
+                print(i["name"])
+                print(i["rating"])
+                print(i["hours"])
+                print(i["city"])
+                print(i["state"])
+                print(i["address"])
         return retList
     elif len(list_two) == 0 and len(list_three) == 0:
         retList.append(list_one)
+        for i in retList:
+                print(i["name"])
+                print(i["rating"])
+                print(i["hours"])
+                print(i["city"])
+                print(i["state"])
+                print(i["address"])
         return retList
     
     # three other cases, for each of the lists being empty. Each has 4 different possibilities, depending on how many entries are in the other lists
@@ -100,18 +128,39 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=100
             print("Less that three entries found. returning shorter list")
             retList.append(list_one)
             retList.append(list_three)
+            for i in retList:
+                print(i["name"])
+                print(i["rating"])
+                print(i["hours"])
+                print(i["city"])
+                print(i["state"])
+                print(i["address"])
             return retList
         # returning two from the first, one from the third
         if len(list_one) >= 2 and len(list_three) >= 1:
             retList.append(list_one[-1])
             retList.append(list_one[-2])
             retList.append(list_three[-1])
+            for i in retList:
+                print(i["name"])
+                print(i["rating"])
+                print(i["hours"])
+                print(i["city"])
+                print(i["state"])
+                print(i["address"])
             return retList
         # returning one from the first, two from the third
         elif len(list_one) >= 1 and len(list_three) >= 2:
             retList.append(list_one[-1])
             retList.append(list_three[-1])
             retList.append(list_three[-2])
+            for i in retList:
+                print(i["name"])
+                print(i["rating"])
+                print(i["hours"])
+                print(i["city"])
+                print(i["state"])
+                print(i["address"])
             return retList
     # same as above, but for list_three
     if len(list_three) == 0:
@@ -119,18 +168,39 @@ def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=100
             print("Less that three entries found. returning shorter list")
             retList.append(list_one)
             retList.append(list_two)
+            for i in retList:
+                print(i["name"])
+                print(i["rating"])
+                print(i["hours"])
+                print(i["city"])
+                print(i["state"])
+                print(i["address"])
             return retList
         # returning two from the first, one from the second
         if len(list_one) >= 2 and len(list_two) >= 1:
             retList.append(list_one[-1])
             retList.append(list_one[-2])
             retList.append(list_two[-1])
+            for i in retList:
+                print(i["name"])
+                print(i["rating"])
+                print(i["hours"])
+                print(i["city"])
+                print(i["state"])
+                print(i["address"])
             return retList
         # returning one from the first, two from the second
         elif len(list_one) >= 1 and len(list_two) >= 2:
             retList.append(list_one[-1])
             retList.append(list_two[-1])
             retList.append(list_two[-2])
+            for i in retList:
+                print(i["name"])
+                print(i["rating"])
+                print(i["hours"])
+                print(i["city"])
+                print(i["state"])
+                print(i["address"])
             return retList
     
     print("Instance in which I get to this point should not happen")
@@ -271,3 +341,5 @@ if __name__ == "__main__":
 
     # this will need to be called AFTER user enters their search_term.
     search_yelp(api_key, search_term, userPrice, latitude, longitude,)
+
+    30.34752626717497, -97.85619684525354
