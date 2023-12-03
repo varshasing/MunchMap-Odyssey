@@ -111,7 +111,7 @@ def get_two_point_data(start_coords, end_coords, departure_date, departure_time)
 
     return trip_dict
 
-def get_route_data(start_coords, end_coords, waypoint_coords, departure_date, departure_time):
+def get_route_data(start_coords, waypoint_coords, end_coords, departure_date, departure_time):
     if waypoint_coords == None:
         return get_two_point_data(start_coords, end_coords, departure_date, departure_time)
     else:

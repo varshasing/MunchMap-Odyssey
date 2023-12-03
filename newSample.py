@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, url_for
 import datetime
-from yelpapi import search_yelp, get_coords, getRestaurantData
+from yelpapi import search_yelp, get_coords, getRestaurantData, singleList
 from weather import main2 as get_weather
 from weather import getDate, getTime
 from gmaps import get_two_point_data, get_route_data, split_coordinates
@@ -56,7 +56,9 @@ def index():
         # userPrice = 2   #passed by front end
         
         # this will need to be called AFTER user enters their search_term.
-        yelpList = search_yelp(search_term, userPrice, latitude, longitude)
+        yelpList = singleList(search_yelp(search_term, userPrice, latitude, longitude))
+    
+        
         travelData = getRestaurantData(coords[0], date, departure_time, yelpList)
         session["yelpList"] = yelpList
         session["travelData"] = travelData
@@ -73,16 +75,20 @@ def result():
     departure_time = session["departure_time"]
     restaurant = None
     routeData = None
+    testData1 = None
+    testData2 = None
     
     if request.method == 'POST':
         option = request.form.get('options', None)        
         if option:
-            restaurant = session["yelpList"][0][int(option)-1]
+            restaurant = session["yelpList"][int(option)-1]
             restaurant_coords = {
-            "lat": restaurant["coordinates"]["latitude"],
-            "lng": restaurant["coordinates"]["longitude"]
+                "lat": restaurant["coordinates"]["latitude"],
+                "lng": restaurant["coordinates"]["longitude"]
             }
             routeData = get_route_data(coords[0], restaurant_coords, coords[4], session["date"], session["departure_time"])
+        else:
+            routeData = get_two_point_data(coords[0], coords[4], session["date"], session["departure_time"])
         
     month, day = getDate(date)
     hr, minute = getTime(departure_time)

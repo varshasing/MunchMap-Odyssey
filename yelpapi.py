@@ -12,9 +12,8 @@ def get_coords(splittedList):
     return lat, lng
 
 def getRestaurantData(start_coordinates, departure_date, departure_time, restaurantList):
-    print(restaurantList)
     restaurantDataList = []
-    for i in restaurantList[0]:
+    for i in restaurantList:
         coords = {
             "lat": i["coordinates"]["latitude"],
             "lng": i["coordinates"]["longitude"]
@@ -29,7 +28,7 @@ def getRestaurantData(start_coordinates, departure_date, departure_time, restaur
 #      ]
 # ]
 
-def search_yelp(search_term, userPrice, latitude, longitude, radius=1000):
+def search_yelp(search_term, userPrice, latitude, longitude, radius=8000):
 
     # need to call restaurant_search three times, each time with a different set of coordinates
     list_one = restaurant_search(api_key, search_term, userPrice, latitude[1], longitude[1], radius)
@@ -282,8 +281,20 @@ def restaurant_search(api_key, search_term, userPrice, latitude, longitude, radi
             return last_list
     else:
         print(f"Error: {response.status_code}, {response.text}")
+        
+# function that takes in the output of search_yelp and returns a list of all the restaurants
+def singleList(restaurant_list):
+    final_list = []
+    for i in restaurant_list:
+        if isinstance(i, dict):
+            return restaurant_list
+        else:
+            for j in i:
+                final_list.append(j)
+    return final_list
 
 if __name__ == "__main__":
+    
     # Replace 'YOUR_API_KEY' with your actual Yelp API key
     #api_key = 'riko09ZEG7R1wBgMqZbjv4uNtMHGBb-t1-2zFrGjAy7Ka2nRwVqD8t3-6GPJXMTfDJEiuQ0RlM24Qh6umi_rVm2Gs7szTULJDRYPfsBEtPYqo0if4YP1_-RLlb9eZXYx'
 
@@ -306,9 +317,12 @@ if __name__ == "__main__":
     }
     
     coords = split_coordinates("New York", "Boston")
-    print(coords)
+    #print(coords)
     latitude = get_coords(coords)[0]
     longitude = get_coords(coords)[1]
     restaurantList = search_yelp(search_term, userPrice, latitude, longitude)
-    print(getRestaurantData(ny_coords, "2023-12-04", "13:00", restaurantList))
+    #print(restaurantList)
+    restaurants = singleList(restaurantList)
+    
+    print(getRestaurantData(ny_coords, "2023-12-04", "13:00", restaurants))
     
