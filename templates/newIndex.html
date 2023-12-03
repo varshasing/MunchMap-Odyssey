@@ -2,15 +2,15 @@
 <html lang="en">
 
 <head>
-    <title>My Form with Flask</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>MunchMap Odyssey</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #FAFAF5;
         }
-        
         .btn-custom-color {
-            background-color: #918f8d;
+            background-color: #b0adab; 
         }
         label {
             display: block;
@@ -38,21 +38,29 @@
 
     <div class="container mt-5">
         <div class="text-center">
-            <p class="h1">Begin your adventure</p>
+            <div class="col-md-12">
+                <img src="{{ url_for('static', filename='bannar1.png') }}" alt="banner" style="max-width: 60%;">                                       
+            </div>
             <div style="padding: 10px;"></div>
             <p class="text-muted mb-2">Where are you going?</p>
         </div>
+        
         <!-- starting and ending point submission -->
         <form id="firstForm" action="/" method="post" class="row justify-content-center">
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="startingpt" class="form-control custom-width" name="startingpt" placeholder="514 Park Drive, Boston, MA" value = {{request.form.get('startingpt', '')}}>
+                    <input type="text" class="form-control custom-width" name="startingpt" placeholder="514 Park Drive, Boston, MA" value="{{ request.form.get('startingpt', '') }}" required>
                 </div>
             </div>
+
+            <div class="col-md-1 text-center" style="margin-right: -40px; margin-left: -40px">
+                <p class="text-muted">&rarr;</p>
+            </div>
+        
         
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="endingpt" class="form-control custom-width" name="endingpt" placeholder="Broadway & W 116th St, New York City, NY" value = {{request.form.get('endingpt', '')}}>
+                    <input type="text" class="form-control custom-width" name="endingpt" placeholder="Broadway & W 116th St, New York City, NY" value = "{{request.form.get('endingpt', '')}}" required>
                 </div>
             </div>
             
@@ -68,7 +76,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <input type="date" class="form-control custom-width" name="date" id="customDate" placeholder="Select date"
-                           min="{{min_date}}" max="{{max_date}}" value = {{request.form.get('date', '')}}>
+                           min="{{min_date}}" max="{{max_date}}" value = "{{request.form.get('date', '')}}" required>
                 </div>
             </div>
             
@@ -89,7 +97,7 @@
             <!-- hour, minute, and am/pm field -->
             <div class="col-md-1">
                 <div class="form-group">
-                    <input type="time" id="departure_time" name="departure_time" value = {{request.form.get('departure_time', '')}} required>
+                    <input type="time" id="departure_time" name="departure_time" value = "{{request.form.get('departure_time', '')}}" required>
                 </div>
             </div>
 
@@ -104,7 +112,7 @@
             <!-- cuisine field -->
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="cuisine" id="cuisineField" class="form-control custom-width" name="cuisine" placeholder="Japanese Food" value = {{request.form.get('cuisine', '')}}>
+                    <input type="cuisine" id="cuisineField" class="form-control custom-width" name="cuisine" placeholder="Japanese Food" value = "{{request.form.get('cuisine', '')}}">
                 </div>
             </div>
 
@@ -121,6 +129,29 @@
                     </select>
                 </div>
             </div>
+
+            <script>
+                // Example starter JavaScript for disabling form submissions if there are invalid fields
+                (function () {
+                'use strict'
+    
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation')
+    
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        }
+    
+                        form.classList.add('was-validated')
+                    }, false)
+                    })
+                })()
+            </script>
 
 
             <div class="col-12 text-center">
@@ -191,6 +222,7 @@
                                 </div>
                             </label>
                         {% endfor %}
+
                     </div>        
                     <div class="col-12 text-center">
                         <div style="padding: 10px;"></div>
