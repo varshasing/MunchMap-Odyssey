@@ -62,13 +62,13 @@ def get_forecast(lat, lon, API_key, dt):
             forecast = e
             min = abs(e.get('dt')-dt)
     data = WeatherData(
-        description = e.get('weather')[0].get('description'),
-        icon = e.get('weather')[0].get('icon'),
-        temperature = int((e.get('main')).get('temp')),
-        precipitation = e.get('pop'),
+        description = forecast.get('weather')[0].get('description'),
+        icon = forecast.get('weather')[0].get('icon'),
+        temperature = int((forecast.get('main')).get('temp')),
+        precipitation = int(forecast.get('pop')*100),
         city = city_,
         state = state_,
-        time = e.get('dt_txt')
+        time = forecast.get('dt_txt')
     )
     return data
 
@@ -91,8 +91,29 @@ def main(city_name, state_name, country_name):
     lat, lon = get_lat_lon(city_name, state_name, country_name, api_key)
     return get_data(lat, lon, api_key)
 
+# 2023-12-05
+# 09:35
+
+def getDate(dateStr):
+    x = dateStr.split("-")
+    month, day = int(x[1]), int(x[2])
+    return month, day
+
+def getTime(timeStr):
+    x = timeStr.split(":")
+    hour, minutes = int(x[0]), int(x[1])
+    return hour, minutes
+
 if __name__ == "__main__":
     
     start_lat, start_lon = get_lat_lon('Boston', 'MA', 'US', api_key)
     end_lat, end_lon = get_lat_lon('New York', 'NY', 'US', api_key)
-    print(main2(start_lat, start_lon, end_lat, end_lon, 11, 29, 2, 0, 30000))
+    
+    print(get_lat_lon('Boston', 'MA', 'US', api_key))
+    print(get_lat_lon('New York', 'NY', 'US', api_key))
+    
+    
+    print(main2(start_lat, start_lon, end_lat, end_lon, 12, 4, 4, 53, 0))
+    print(get_dt(12, 4, 4, 53))
+    
+    print(getDate('2023-12-05'))

@@ -2,15 +2,15 @@
 <html lang="en">
 
 <head>
-    <title>My Form with Flask</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>MunchMap Odyssey</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #FAFAF5;
         }
-        
         .btn-custom-color {
-            background-color: #918f8d;
+            background-color: #b0adab; 
         }
         label {
             display: block;
@@ -35,23 +35,32 @@
 </head>
 
 <body>
+
     <div class="container mt-5">
         <div class="text-center">
-            <p class="h1">Begin your adventure</p>
+            <div class="col-md-12">
+                <img src="{{ url_for('static', filename='bannar1.png') }}" alt="banner" style="max-width: 60%;">                                       
+            </div>
             <div style="padding: 10px;"></div>
             <p class="text-muted mb-2">Where are you going?</p>
         </div>
+        
         <!-- starting and ending point submission -->
-        <form id="firstForm" action="/submit_form" method="post" class="row justify-content-center">
+        <form id="firstForm" action="/" method="post" class="row justify-content-center">
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="startingpt" class="form-control custom-width" name="startingpt" placeholder="514 Park Drive, Boston, MA">
+                    <input type="text" class="form-control custom-width" name="startingpt" placeholder="514 Park Drive, Boston, MA" value="{{ request.form.get('startingpt', '') }}" required>
                 </div>
             </div>
+
+            <div class="col-md-1 text-center" style="margin-right: -40px; margin-left: -40px">
+                <p class="text-muted">&rarr;</p>
+            </div>
+        
         
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="endingpt" class="form-control custom-width" name="endingpt" placeholder="Broadway & W 116th St, New York City, NY">
+                    <input type="text" class="form-control custom-width" name="endingpt" placeholder="Broadway & W 116th St, New York City, NY" value = "{{request.form.get('endingpt', '')}}" required>
                 </div>
             </div>
             
@@ -67,7 +76,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <input type="date" class="form-control custom-width" name="date" id="customDate" placeholder="Select date"
-                           min="{{min_date}}" max="{{max_date}}">
+                           min="{{min_date}}" max="{{max_date}}" value = "{{request.form.get('date', '')}}" required>
                 </div>
             </div>
             
@@ -88,7 +97,7 @@
             <!-- hour, minute, and am/pm field -->
             <div class="col-md-1">
                 <div class="form-group">
-                    <input type="time" id="departure_time" name="departure_time" required>
+                    <input type="time" id="departure_time" name="departure_time" value = "{{request.form.get('departure_time', '')}}" required>
                 </div>
             </div>
 
@@ -103,7 +112,7 @@
             <!-- cuisine field -->
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="cuisine" id="cuisineField" class="form-control custom-width" name="cuisine" placeholder="Japanese Food">
+                    <input type="cuisine" id="cuisineField" class="form-control custom-width" name="cuisine" placeholder="Japanese Food" value = "{{request.form.get('cuisine', '')}}">
                 </div>
             </div>
 
@@ -112,14 +121,37 @@
             <div class="col-md-1">
                 <div class="form-group">
                     <select class="form-control" id="budget" name="budget">
-                      <option value="" disabled selected>Budget</option>
-                      <option>$</option>
-                      <option>$$</option>
-                      <option>$$$</option>
-                      <option>$$$$</option>
+                        <option value="" disabled selected>Budget</option>
+                        <option value='1' {% if request.form.get('budget','') == '1' %}selected{% endif %}>$</option>
+                        <option value='2' {% if request.form.get('budget','') == '2' %}selected{% endif %}>$$</option>
+                        <option value='3' {% if request.form.get('budget','') == '3' %}selected{% endif %}>$$$</option>
+                        <option value='4' {% if request.form.get('budget','') == '4' %}selected{% endif %}>$$$$</option>
                     </select>
                 </div>
             </div>
+
+            <script>
+                // Example starter JavaScript for disabling form submissions if there are invalid fields
+                (function () {
+                'use strict'
+    
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation')
+    
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        }
+    
+                        form.classList.add('was-validated')
+                    }, false)
+                    })
+                })()
+            </script>
 
 
             <div class="col-12 text-center">
@@ -132,10 +164,12 @@
             <div style="padding: 10px;"></div>
         </div>
 
+        {% if formFilled %}
+
         <!-- restaurant choices, a for loop iterating through the dictionary passed by yelp api -->
         <form id="secondForm" action="/result" method="post" class="row justify-content-center">
             <div class="col-md-6 mx-auto">
-                <div id="secondSubmitWrapper" style="display: none;">
+                <div id="secondSubmitWrapper">
                     <div class="list-group">
                         {% for restaurant in restaurants %}
                             <label class="list-group-item">
@@ -188,6 +222,7 @@
                                 </div>
                             </label>
                         {% endfor %}
+
                     </div>        
                     <div class="col-12 text-center">
                         <div style="padding: 10px;"></div>
@@ -199,24 +234,11 @@
             <div class="col-12">
                 <div style="padding: 10px;"></div>
             </div>
-        
-            <!-- JavaScript to toggle visibility -->
-            <script>
-                document.getElementById('firstSubmit').addEventListener('click', function (event) {
-                    event.preventDefault();
-                    var cuisineValue = document.getElementsByName('cuisine')[0].value;
-            
-                    if (cuisineValue !== '') {
-                        document.getElementById('secondForm').style.display = 'block';
-                        document.getElementById('secondSubmitWrapper').style.display = 'block';
-                    } else {
-                        // alert('Please fill out the cuisine field before proceeding.');
-                        document.getElementById('secondForm').style.display = 'block';
-                        document.getElementById('secondSubmitWrapper').style.display = 'block';
-                    }
-                });
-            </script>
+    
         </form>
+
+        {% endif %}
+
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>

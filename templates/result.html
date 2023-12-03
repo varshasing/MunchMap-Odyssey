@@ -1,1 +1,118 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>MunchMap Odyssey</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FAFAF5;
+        }
+        
+        .btn-custom-color {
+            background-color: #b0adab;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="text-center">
+            <div class="col-md-12">
+                <img src="{{ url_for('static', filename='bannar2.png') }}" alt="banner" style="max-width: 60%;">                                       
+            </div>
+            <div style="padding: 10px;"></div>
+        </div>
+        {% if option %}
+            <div class="col-md-12 text-center">
+                <h4>{{startingpt}} starting point &rarr; way point &rarr; {{endingpt}} ending point</h4>
+            </div> 
+
+        {% else %}
+            <div class="col-md-12 text-center">
+                <h4>{{startingpt}} starting point &rarr; {{endingpt}} ending point</h4>
+            </div>        
+
+        {% endif %}
+
+        <div class="col-12">
+            <div style="padding: 10px;"></div>
+        </div>
+
+        <div class="col-md-12 text-center">
+            <p class="font-weight-normal">Duration: 4 Hours, 32 Minutes  |  213 Miles</p> 
+        </div>
+        
+        <div class="col-12">
+            <div style="padding: 10px;"></div>
+        </div>
+
+        <div class="container overflow-hidden text-center" style="max-width: 60%;">
+            <div class="row">
+              <div class="col">
+               
+                <div class="row justify-content-center">
+                    <div class="col">
+                        <div class="row justify-content-center">
+                            <div class="col-auto">
+                                <h5 class="mb-1">{{data['startData'].city}}, {{data['startData'].state}}</h5>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-auto">
+                                <img src="https://openweathermap.org/img/wn/{{data['startData'].icon}}@2x.png" alt="icon">
+                            </div>      
+                            <div class="col-auto">
+                                <p class="mb-1" style="line-height: 2;">
+                                    <div style="padding: 10px;"></div>
+                                    {{data['startData'].temperature}}°F {{data['startData'].description}}
+                                    <br>
+                                    {{(data['startData'].precipitation)}}% precipitation
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+              </div>
+              <div class="col">
+                
+                <div class="row justify-content-center">
+                    <div class="col">
+                        <div class="row justify-content-center">
+                            <div class="col-auto">
+                                <h5 class="mb-1">{{data['endData'].city}}, {{data['endData'].state}}</h5>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-auto">
+                                <img src="https://openweathermap.org/img/wn/{{data['endData'].icon}}@2x.png" alt="icon">
+                            </div>      
+                            <div class="col-auto">
+                                <p class="mb-1" style="line-height: 2;">
+                                    <div style="padding: 10px;"></div>
+                                    {{data['endData'].temperature}}°F {{data['endData'].description}}
+                                    <br>
+                                    {{(data['endData'].precipitation)}}% precipitation
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-12 text-center">
+            <div style="padding: 10px;"></div>
+                <!-- <button id="thirdSubmit" action="/" type="submit" class="btn btn-custom-color">Return to planner</button> -->
+                <a href="/" class="btn btn-custom-color">Go Back to Homepage</a>
+            </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
