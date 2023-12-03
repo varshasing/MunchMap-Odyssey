@@ -1,4 +1,3 @@
-from flask import Flask, render_template, request
 import googlemaps
 from datetime import datetime
 import polyline
