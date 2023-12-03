@@ -23,6 +23,7 @@ def index():
     
     cuisine = search_term
     budget = userPrice
+    formFilled = None
     
     if request.method == 'POST':
         startingpt = request.form['startingpt']
@@ -30,13 +31,14 @@ def index():
         date = request.form['date']
         departure_time = request.form['departure_time']
         cuisine = request.form['cuisine']
-        budget = request.form['budget']
+        budget = request.form.get('budget', 1)  
         session["startingpt"] = startingpt
         session["endingpt"] = endingpt
         session["date"] = date
         session["departure_time"] = departure_time
         session["cuisine"] = cuisine
         session['budget'] = budget
+        formFilled = 1
     
     search_term = cuisine
     userPrice = int(budget)
@@ -44,7 +46,7 @@ def index():
     # this will need to be called AFTER user enters their search_term.
     yelpList = search_yelp(api_key, search_term, userPrice, latitude, longitude,)
     
-    return render_template('newIndex.html', min_date=today, max_date=five_days_later, restaurants=yelpList)
+    return render_template('newIndex.html', min_date=today, max_date=five_days_later, restaurants=yelpList, formFilled=formFilled)
 
 @app.route('/result', methods=['GET', 'POST'])
 def result():
@@ -56,7 +58,7 @@ def result():
     cuisine = session["cuisine"]
     
     if request.method == 'POST':
-        option = request.form['options']
+        option = request.form.get('options', None)        
         
     start_lat = 42.3554334
     start_lon = -71.060511

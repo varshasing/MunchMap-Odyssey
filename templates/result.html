@@ -17,9 +17,7 @@
 
 <body>
 
-    {{session.date}} {{session.departure_time}}
-    <br>
-    {{hr}}:{{minute}}
+    {{session.date}} {{session.departure_time}} EST
 
     <div class="container mt-5">
 
@@ -47,7 +45,7 @@
                                     <br>
                                     {{(data['startData'].precipitation)}}% precipitation
                                     <br>
-                                    {{(data['startData'].time)}}
+                                    {{(data['startData'].time)}} GMT
 
                                 </p>
                             </div>
@@ -78,7 +76,7 @@
                                     <br>
                                     {{(data['endData'].precipitation)}}% precipitation
                                     <br>
-                                    {{(data['startData'].time)}}
+                                    {{(data['startData'].time)}} GMT
                                 </p>
                             </div>
                         </div>
