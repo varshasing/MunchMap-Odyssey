@@ -171,7 +171,7 @@
             <div class="col-md-6 mx-auto">
                 <div id="secondSubmitWrapper">
                     <div class="list-group">
-                        {% for restaurant in restaurants %}
+                        {% for restaurant in restaurants[0] %}
                             <label class="list-group-item">
 
                                 <div class="row align-items-center">
@@ -184,7 +184,7 @@
                                                 <h5 class="mb-1">{{restaurant['name']}}</h5>
                                             </div>
                                             <div class="col-auto">
-                                                <p class="mb-1"> <!-- insert google maps api data here --> hour(s) away, <!-- insert google maps api data here -->mile(s)</p>
+                                                <p class="mb-1"> <!-- insert google maps api data here -->{{travelData[0]["hours"]}} hour(s) away, <!-- insert google maps api data here -->{{travelData[0]["distance"]}} mile(s)</p>
                                             </div>
                                         </div>
                                         <div class="row align-items-center">
