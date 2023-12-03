@@ -1,11 +1,35 @@
 import requests
 from dotenv import load_dotenv
 import os
+from gmaps import get_two_point_data, split_coordinates
 
 load_dotenv()
 api_key = os.getenv("YELP_KEY")
 
-def search_yelp(api_key, search_term, userPrice, latitude, longitude, radius=1000):
+def get_coords(splittedList):
+    lat = [splittedList[0]["lat"], splittedList[1]["lat"], splittedList[2]["lat"], splittedList[3]["lat"], splittedList[4]["lat"]]
+    lng = [splittedList[0]["lng"], splittedList[1]["lng"], splittedList[2]["lng"], splittedList[3]["lng"], splittedList[4]["lng"]]
+    return lat, lng
+
+def getRestaurantData(start_coordinates, departure_date, departure_time, restaurantList):
+    print(restaurantList)
+    restaurantDataList = []
+    for i in restaurantList[0]:
+        coords = {
+            "lat": i["coordinates"]["latitude"],
+            "lng": i["coordinates"]["longitude"]
+        }
+        restaurantDataList.append(get_two_point_data(start_coordinates, coords, departure_date, departure_time))
+    return restaurantDataList
+
+# [
+#     [
+#         {'name': 'Boston Market', 'rating': 3.0, 'price': '$$', 'address': '755 E Main St', 'city': 'Meriden', 'state': 'CT', 'coordinates': {'latitude': 41.5290176438994, 'longitude': -72.7780737058948}, 'id': 'TWjCbLLTi0iN6RTdqH3jYQ', 'hours': {'day': 0, 'start': '1100', 'end': '2200'}}, 
+#         {'name': 'American Steakhouse', 'rating': 2.5, 'price': '$$', 'address': '1170 E Main St', 'city': 'Meriden', 'state': 'CT', 'coordinates': {'latitude': 41.52613604739434, 'longitude': -72.76391880968558}, 'id': 'QAHVNX8vxbyAOagfiA0p_A', 'hours': {'day': 0, 'start': '1130', 'end': '2100'}}
+#      ]
+# ]
+
+def search_yelp(search_term, userPrice, latitude, longitude, radius=1000):
 
     # need to call restaurant_search three times, each time with a different set of coordinates
     list_one = restaurant_search(api_key, search_term, userPrice, latitude[1], longitude[1], radius)
@@ -264,10 +288,27 @@ if __name__ == "__main__":
     #api_key = 'riko09ZEG7R1wBgMqZbjv4uNtMHGBb-t1-2zFrGjAy7Ka2nRwVqD8t3-6GPJXMTfDJEiuQ0RlM24Qh6umi_rVm2Gs7szTULJDRYPfsBEtPYqo0if4YP1_-RLlb9eZXYx'
 
     # Define your search term and coordinates
-    search_term = "pasta" #Passed by front end
+    
+    search_term = "American" #Passed by front end
     latitude = [0, 37.7749, 30.34752626717497, 34.0522, 0]  #passed by google maps api
     longitude = [0, -122.4194, -97.85619684525354, -118.2437 ,0] #passed by google maps api
     userPrice = 2   #passed by front end
 
-    # this will need to be called AFTER user enters their search_term.
-    search_yelp(api_key, search_term, userPrice, latitude, longitude,)
+    # # this will need to be called AFTER user enters their search_term.
+    # print(restaurantList)
+    san_fran_coords = { 
+        "lat": 37.7749,
+        "lng": 122.4194
+    }
+    ny_coords = {
+        "lat": 40.7127753,
+        "lng": -74.0059728
+    }
+    
+    coords = split_coordinates("New York", "Boston")
+    print(coords)
+    latitude = get_coords(coords)[0]
+    longitude = get_coords(coords)[1]
+    restaurantList = search_yelp(search_term, userPrice, latitude, longitude)
+    print(getRestaurantData(ny_coords, "2023-12-04", "13:00", restaurantList))
+    
