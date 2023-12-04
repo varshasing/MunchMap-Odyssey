@@ -291,6 +291,7 @@ def singleList(restaurant_list):
         else:
             for j in i:
                 final_list.append(j)
+    for i in final_list:
         
     return final_list
 # remove duplicate entries from the final_list

@@ -235,15 +235,15 @@ def restaurant_search(api_key, search_term, userPrice, latitude, longitude, radi
                 numberofbusinesses += 1
                 final_sorted.append(business)
 
-            elif business["price"] == "$$" and userPrice >= 2:
+            elif business["price"] == "$$" and userPrice <= 2:
                 final_sorted.append(business)
                 numberofbusinesses += 1
 
-            elif business["price"] == "$$$" and userPrice >= 3:
+            elif business["price"] == "$$$" and userPrice <= 3:
                 final_sorted.append(business)
                 numberofbusinesses += 1
 
-            elif business["price"] == "$$$$" and userPrice == 4:
+            elif business["price"] == "$$$$" and userPrice <= 4:
                 final_sorted.append(business)
                 numberofbusinesses += 1
 
@@ -268,13 +268,13 @@ def restaurant_search(api_key, search_term, userPrice, latitude, longitude, radi
         
         # need to return the last three results, or less depending on how many if ever returns
         if len(last_list) == 3:
-            # print("three!")
+            #print("three!")
             return last_list[:3]
         elif len(last_list) == 2:
-            # print("two!")
+            #print("two!")
             return last_list[:2]
         elif len(last_list) == 1:
-            # print("one!")
+            #print("one!")
             return last_list[:1]
         elif len(last_list) == 0:
             print("No results found, error in final_sorted")
@@ -291,7 +291,7 @@ def singleList(restaurant_list):
         else:
             for j in i:
                 final_list.append(j)
-        
+    final_list = list(set(final_list))
     return final_list
 # remove duplicate entries from the final_list
 
@@ -300,16 +300,16 @@ def singleList(restaurant_list):
 if __name__ == "__main__":
     
     # Replace 'YOUR_API_KEY' with your actual Yelp API key
-    # api_key = 'riko09ZEG7R1wBgMqZbjv4uNtMHGBb-t1-2zFrGjAy7Ka2nRwVqD8t3-6GPJXMTfDJEiuQ0RlM24Qh6umi_rVm2Gs7szTULJDRYPfsBEtPYqo0if4YP1_-RLlb9eZXYx'
+    #api_key = 'riko09ZEG7R1wBgMqZbjv4uNtMHGBb-t1-2zFrGjAy7Ka2nRwVqD8t3-6GPJXMTfDJEiuQ0RlM24Qh6umi_rVm2Gs7szTULJDRYPfsBEtPYqo0if4YP1_-RLlb9eZXYx'
 
     # Define your search term and coordinates
     
-    search_term = "American" # Passed by front end
-    latitude = [0, 37.7749, 30.34752626717497, 34.0522, 0]  # passed by google maps api
-    longitude = [0, -122.4194, -97.85619684525354, -118.2437 ,0] # passed by google maps api
-    userPrice = 2   # passed by front end
+    search_term = "American" #Passed by front end
+    latitude = [0, 37.7749, 30.34752626717497, 34.0522, 0]  #passed by google maps api
+    longitude = [0, -122.4194, -97.85619684525354, -118.2437 ,0] #passed by google maps api
+    userPrice = 2   #passed by front end
 
-    # this will need to be called AFTER user enters their search_term.
+    # # this will need to be called AFTER user enters their search_term.
     # print(restaurantList)
     san_fran_coords = { 
         "lat": 37.7749,
@@ -321,11 +321,11 @@ if __name__ == "__main__":
     }
     
     coords = split_coordinates("New York", "Boston")
-    # print(coords)
+    #print(coords)
     latitude = get_coords(coords)[0]
     longitude = get_coords(coords)[1]
     restaurantList = search_yelp(search_term, userPrice, latitude, longitude)
-    # print(restaurantList)
+    #print(restaurantList)
     restaurants = singleList(restaurantList)
     
     print(getRestaurantData(ny_coords, "2023-12-04", "13:00", restaurants))
