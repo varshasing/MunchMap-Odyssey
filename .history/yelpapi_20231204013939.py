@@ -53,21 +53,21 @@ def search_yelp(search_term, userPrice, latitude, longitude, radius=8000):
     for i, e in reversed(list(enumerate(list_one))):
         if e is not None:
         # need to error check for object is NoneType, as it is not subscriptable and will throw an error
-            if list_one[:-i]== "N/A":
+            if e["start"] == "N/A":
                 list_one.remove(i)
                 list_one_hours.remove(i)
         else:
             break
     for i, e in reversed(list(enumerate(list_two))):
         if e is not None:
-            if list_two[:-i]== "N/A":
+            if e["start"] == "N/A":
                 list_two.remove(i)
                 list_two_hours.remove(i)
         else:
             break
     for i, e in reversed(list(enumerate(list_three))):
         if e is not None:
-            if list_three[:-i]== "N/A":
+            if e["start"] == "N/A":
                 list_three.remove(i)
                 list_three_hours.remove(i)
         else:
