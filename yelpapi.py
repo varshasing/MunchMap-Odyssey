@@ -284,16 +284,22 @@ def restaurant_search(api_key, search_term, userPrice, latitude, longitude, radi
         
 # function that takes in the output of search_yelp and returns a list of all the restaurants
 def singleList(restaurant_list):
-    final_list = []
+    single_list = []
     for i in restaurant_list:
         if isinstance(i, dict):
-            return restaurant_list
+            single_list = restaurant_list
+            break
         else:
             for j in i:
-                final_list.append(j)
-        
+                single_list.append(j)
+    # remove duplicate entries from the final_list
+    final_list = [i for n, i in enumerate(single_list) if i not in single_list[:n]] #does not keep maintain order :(
+    # final_list = []
+    # for i in range(len(single_list)):
+    #     if single_list[i] not in single_list[i + 1:]:
+    #         final_list.append(single_list[i])
     return final_list
-# remove duplicate entries from the final_list
+
 
 
 
@@ -325,7 +331,7 @@ if __name__ == "__main__":
     latitude = get_coords(coords)[0]
     longitude = get_coords(coords)[1]
     restaurantList = search_yelp(search_term, userPrice, latitude, longitude)
-    # print(restaurantList)
+    print(restaurantList)
     restaurants = singleList(restaurantList)
     
     print(getRestaurantData(ny_coords, "2023-12-04", "13:00", restaurants))
