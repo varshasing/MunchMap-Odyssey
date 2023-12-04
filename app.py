@@ -66,7 +66,7 @@ def index():
         
 
     
-    return render_template('newIndex.html', min_date=today, max_date=five_days_later, restaurants=yelpList, formFilled=formFilled, travelData=travelData)
+    return render_template('index.html', min_date=today, max_date=five_days_later, restaurants=yelpList, formFilled=formFilled, travelData=travelData)
 
 @app.route('/result', methods=['GET', 'POST'])
 def result():
