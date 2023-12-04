@@ -4,7 +4,7 @@ import os
 from gmaps import get_two_point_data, split_coordinates
 
 load_dotenv()
-api_key = os.getenv("YELP_KEY")
+api_key = os.getenv("OLD_OLD_OLD_YELP_KEY")
 
 def get_coords(splittedList):
     lat = [splittedList[0]["lat"], splittedList[1]["lat"], splittedList[2]["lat"], splittedList[3]["lat"], splittedList[4]["lat"]]
@@ -50,18 +50,27 @@ def search_yelp(search_term, userPrice, latitude, longitude, radius=8000):
 
     # filter out results for each of the three different coordinate point lists that do not have hours of operation
     for i in list_one_hours[:]:
-        if i["start"] == "N/A":
-            list_one.remove(i)
-            list_one_hours.remove(i)
+        if i is not None:
+        # need to error check for object is NoneType, as it is not subscriptable and will throw an error
+            if i["start"] == "N/A":
+                list_one.remove(i)
+                list_one_hours.remove(i)
+        else:
+            break
     for i in list_two_hours[:]:
-        if i["start"] == "N/A":
-            list_two.remove(i)
-            list_two_hours.remove(i)
+        if i is not None:
+            if i["start"] == "N/A":
+                list_two.remove(i)
+                list_two_hours.remove(i)
+        else:
+            break
     for i in list_three_hours[:]:
-        if i["start"] == "N/A":
-            list_three.remove(i)
-            list_three_hours.remove(i)
-    
+        if i is not None:
+            if i["start"] == "N/A":
+                list_three.remove(i)
+                list_three_hours.remove(i)
+        else:
+            break                
     # need to append the list_hash_hours to each index of list_hash as 'hours':
     for i in range(len(list_one)):
         list_one[i]["hours"] = list_one_hours[i]
@@ -69,6 +78,7 @@ def search_yelp(search_term, userPrice, latitude, longitude, radius=8000):
         list_two[i]["hours"] = list_two_hours[i]
     for i in range(len(list_three)):
         list_three[i]["hours"] = list_three_hours[i]
+
     
 
     # most ideal case, where all three lists have at least one entry. append the LAST entry for every list to the final list
@@ -333,6 +343,6 @@ if __name__ == "__main__":
     restaurantList = search_yelp(search_term, userPrice, latitude, longitude)
     print(restaurantList)
     restaurants = singleList(restaurantList)
-    
     print(getRestaurantData(ny_coords, "2023-12-04", "13:00", restaurants))
+
     

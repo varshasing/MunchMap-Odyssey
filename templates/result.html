@@ -11,13 +11,13 @@
         }
         
         .btn-custom-color {
-            background-color: #b0adab;
+            background-color: #ffc2bc;
         }
         .card-custom-color {
             background-color: #ffffff;
             border: 1px solid #2b2b2b; 
             border-radius: 40px;
-            min-width: 250px;
+            /* min-width: 250px; */
         }
     </style>
 </head>
@@ -26,17 +26,17 @@
 
     <div class="container mt-5">
         <div class="text-center">
-            <div class="col-md-12">
-                <img src="{{ url_for('static', filename='bannar2.png') }}" alt="banner" style="max-width: 60%;">                                       
-            </div>
+            <!-- insert welcome banner image -->
+            <img src="{{ url_for('static', filename='bannar2.png') }}" alt="banner" style="max-width: 60%;">                                       
             <div style="padding: 10px;"></div>
         </div>
 
+        <!-- if there is a waypoint, display starting point, waypoint, and ending point in cards -->
         {% if option %}            
             <div class="row justify-content-center">
                 <div class="col-auto text-center">
                     <div class="card-custom-color">
-                        <h5 class="card-title" style="margin-top: 5px">  {{session["startingpt"]}}  {{startingpt}}</h5>
+                        <h5 class="card-title" style="margin-top: 5px; margin-right: 20px; margin-left: 20px">  {{session["startingpt"]}}  {{startingpt}}</h5>
                     </div>
                 </div>
 
@@ -46,7 +46,7 @@
 
                 <div class="col-auto text-center">
                     <div class="card-custom-color">
-                        <h5 class="card-title" style="margin-top: 5px">  {{restaurant["name"]}}  </h5>
+                        <h5 class="card-title" style="margin-top: 5px; margin-right: 20px; margin-left: 20px">  {{restaurant["name"]}}  </h5>
                     </div>
                 </div>
 
@@ -56,16 +56,17 @@
 
                 <div class="col-auto text-center">
                     <div class="card-custom-color">
-                        <h5 class="card-title" style="margin-top: 5px">  {{session["endingpt"]}}  {{endingpt}}</h5>
+                        <h5 class="card-title" style="margin-top: 5px; margin-right: 20px; margin-left: 20px">  {{session["endingpt"]}}  {{endingpt}}</h5>
                     </div>
                 </div>
             </div>
 
+        <!-- if there is no waypoint, display only starting point and ending point in cards -->
         {% else %}
         <div class="row justify-content-center">
             <div class="col-auto text-center">
                 <div class="card-custom-color">
-                    <h5 class="card-title" style="margin-top: 5px">  {{session["startingpt"]}}  {{startingpt}}</h5>
+                    <h5 class="card-title" style="margin-top: 5px; margin-right: 20px; margin-left: 20px">  {{session["startingpt"]}}  {{startingpt}}</h5>
                 </div>
             </div>
 
@@ -75,25 +76,23 @@
 
             <div class="col-auto text-center">
                 <div class="card-custom-color">
-                    <h5 class="card-title" style="margin-top: 5px">  {{session["endingpt"]}} {{endingpt}}</h5>
+                    <h5 class="card-title" style="margin-top: 5px; margin-right: 20px; margin-left: 20px">  {{session["endingpt"]}} {{endingpt}}</h5>
                 </div>
             </div>
         </div>      
 
         {% endif %}
 
-        <div class="col-12">
-            <div style="padding: 10px;"></div>
-        </div>
+        <div style="padding: 10px;"></div>
 
+        <!-- display total route duration and distance -->
         <div class="col-md-12 text-center">
-            <p class="font-weight-normal">Duration: {{routeData["hours"]}} Hours, {{routeData["minutes"]}} Minutes  |  {{routeData["distance"]}} Miles</p> 
+            <h5>{{routeData["hours"]}} Hours, {{routeData["minutes"]}} Minutes  |  {{routeData["distance"]}} Miles</h5>
         </div>
         
-        <div class="col-12">
-            <div style="padding: 10px;"></div>
-        </div>
+        <div style="padding: 10px;"></div>
 
+        <!-- display weather at starting and ending points -->
         <div class="container overflow-hidden text-center" style="max-width: 60%;">
             <div class="row">
               <div class="col">
@@ -102,7 +101,7 @@
                     <div class="col">
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <h5 class="mb-1">{{data['startData'].city}}, {{data['startData'].state}}</h5>
+                                <h6 class="mb-1">{{data['startData'].city}}, {{data['startData'].state}}</h6>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -128,7 +127,7 @@
                     <div class="col">
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <h5 class="mb-1">{{data['endData'].city}}, {{data['endData'].state}}</h5>
+                                <h6 class="mb-1">{{data['endData'].city}}, {{data['endData'].state}}</h6>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -150,11 +149,11 @@
               </div>
             </div>
           </div>
-        
+
+          <!-- button to return to planner -->
           <div class="col-12 text-center">
             <div style="padding: 10px;"></div>
-                <!-- <button id="thirdSubmit" action="/" type="submit" class="btn btn-custom-color">Return to planner</button> -->
-                <a href="/" class="btn btn-custom-color">Go Back to Homepage</a>
+                <a href="/" class="btn btn-custom-color">Return to planner</a>
             </div>
     </div>
     

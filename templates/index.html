@@ -10,7 +10,7 @@
             background-color: #FAFAF5;
         }
         .btn-custom-color {
-            background-color: #b0adab; 
+            background-color: #ffc2bc; 
         }
         label {
             display: block;
@@ -21,14 +21,13 @@
         input[type="time"] {
             padding: 6px;
             border: 1px solid #d0d0d6; 
-            border-radius: 4px; /* Rounded corners */
+            border-radius: 4px;
             font-size: 16px; 
             color: #2b2b2b;
         }
         .h1 {
             font-size: 2.5rem; 
             color: #2b2b2b; 
-            /* font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;  */
         }
     </style>
     </style>
@@ -38,14 +37,13 @@
 
     <div class="container mt-5">
         <div class="text-center">
-            <div class="col-md-12">
-                <img src="{{ url_for('static', filename='bannar1.png') }}" alt="banner" style="max-width: 60%;">                                       
-            </div>
+            <!-- insert welcome banner image -->
+            <img src="{{ url_for('static', filename='bannar1.png') }}" alt="banner" style="max-width: 60%;">                                       
             <div style="padding: 10px;"></div>
-            <p class="text-muted mb-2">Where are you going?</p>
+            <h5>Where are you going?</h5>
         </div>
         
-        <!-- starting and ending point submission -->
+        <!-- starting and ending point submission forms -->
         <form id="firstForm" action="/" method="post" class="row justify-content-center">
             <div class="col-md-3">
                 <div class="form-group">
@@ -54,7 +52,7 @@
             </div>
 
             <div class="col-md-1 text-center" style="margin-right: -40px; margin-left: -40px">
-                <p class="text-muted">&rarr;</p>
+                <p>&rarr;</p>
             </div>
         
         
@@ -63,14 +61,11 @@
                     <input type="text" class="form-control custom-width" name="endingpt" placeholder="Broadway & W 116th St, New York City, NY" value = "{{request.form.get('endingpt', '')}}" required>
                 </div>
             </div>
-            
-            <div class="col-12">
-                <div style="padding: 10px;"></div>
-            </div>
+            <div style="padding: 20px;"></div>
 
-            <!-- date field -->
+            <!-- date submission form -->
             <div class="col-md-12 text-center">
-                <p class="text-muted mb-2">When?</p> 
+                <h5>When?</h5> 
             </div>
 
             <div class="col-md-2">
@@ -80,7 +75,7 @@
                 </div>
             </div>
             
-            <!-- JavaScript for custom dates calendar-->
+            <!-- JavaScript for custom dates calendar, making sure to only show 5 days, which is what the weather API can return-->
             <script>
                 const today = new Date();
                 const fiveDaysLater = new Date();
@@ -94,30 +89,28 @@
                 customDateInput.setAttribute('max', maxDate);
             </script>
 
-            <!-- hour, minute, and am/pm field -->
+            <!-- hour, minute, and am/pm submission form-->
             <div class="col-md-1">
                 <div class="form-group">
                     <input type="time" id="departure_time" name="departure_time" value = "{{request.form.get('departure_time', '')}}" required>
                 </div>
             </div>
-
-            <div class="col-12">
-                <div style="padding: 10px;"></div>
-            </div>
+            
+            <div style="padding: 20px;"></div>
 
             <div class="col-md-12 text-center">
-                <p class="text-muted mb-2">What are you stopping for?</p> 
+                <h5>What are you stopping for?</h5> 
             </div>
             
-            <!-- cuisine field -->
+            <!-- cuisine submission form -->
             <div class="col-md-3">
                 <div class="form-group">
-                    <input type="cuisine" id="cuisineField" class="form-control custom-width" name="cuisine" placeholder="Japanese Food" value = "{{request.form.get('cuisine', '')}}">
+                    <input type="cuisine" id="cuisineField" class="form-control custom-width" name="cuisine" placeholder="Pizza" value = "{{request.form.get('cuisine', '')}}">
                 </div>
             </div>
 
 
-            <!-- budget field -->
+            <!-- budget submission form -->
             <div class="col-md-1">
                 <div class="form-group">
                     <select class="form-control" id="budget" name="budget">
@@ -130,115 +123,92 @@
                 </div>
             </div>
 
-            <script>
-                // Example starter JavaScript for disabling form submissions if there are invalid fields
-                (function () {
-                'use strict'
-    
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.querySelectorAll('.needs-validation')
-    
-                // Loop over them and prevent submission
-                Array.prototype.slice.call(forms)
-                    .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                        }
-    
-                        form.classList.add('was-validated')
-                    }, false)
-                    })
-                })()
-            </script>
-
-
             <div class="col-12 text-center">
-                <div style="padding: 10px;"></div>
+                <div style="padding: 15px;"></div>
                 <button id="firstSubmit" type="submit" class="btn btn-custom-color">Find Stop</button>
             </div>
         </form>
 
-        <div class="col-12">
-            <div style="padding: 10px;"></div>
-        </div>
+        <div style="padding: 10px;"></div>
 
         {% if formFilled %}
+        <!-- if the yelpList is empty, display a message saying no restaurants were found -->
+            {% if restaurants == [] %}
+                <div class="col-md-12 text-center">
+                    <h5>Sorry, no restaurants were found. Please try again.</h5>
+                </div>
 
-        <!-- restaurant choices, a for loop iterating through the dictionary passed by yelp api -->
-        <form id="secondForm" action="/result" method="post" class="row justify-content-center">
-            <div class="col-md-6 mx-auto">
-                <div id="secondSubmitWrapper">
-                    <div class="list-group">
-                        {% for restaurant in restaurants %}
-                            <label class="list-group-item">
-
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <input class="form-check-input me-1" type="radio" name="options" value="{{ loop.index }}">
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col-auto">
-                                                <h5 class="mb-1">{{restaurant['name']}}</h5>
-                                            </div>
-                                            <div class="col-auto">
-                                                <p class="mb-1"> <!-- insert google maps api data here -->{{travelData[0]["hours"]}} hour(s) away, <!-- insert google maps api data here -->{{travelData[0]["distance"]}} mile(s)</p>
-                                            </div>
-                                        </div>
+            {% else %}
+                <!-- restaurant choices, a for loop iterating through yelpList -->
+                <form id="secondForm" action="/result" method="post" class="row justify-content-center">
+                    <div class="col-md-7 mx-auto">
+                        <div id="secondSubmitWrapper">
+                            <div class="list-group">
+                                {% for restaurant in restaurants %}
+                                    <label class="list-group-item">
                                         <div class="row align-items-center">
                                             <div class="col-auto">
-                                                <div> 
-                                                    {% if restaurant['rating'] == 0 %}
-                                                        <img src="{{ url_for('static', filename='small_0.png') }}" alt="Yelp Stars">                                       
-                                                    {% elif restaurant['rating'] == 1 %}
-                                                        <img src="{{ url_for('static', filename='small_1.png') }}" alt="Yelp Stars">
-                                                    {% elif restaurant['rating'] == 1.5 %}
-                                                        <img src="{{ url_for('static', filename='small_1_half.png') }}" alt="Yelp Stars">
-                                                    {% elif restaurant['rating'] == 2 %}
-                                                        <img src="{{ url_for('static', filename='small_2.png') }}" alt="Yelp Stars">
-                                                    {% elif restaurant['rating'] == 2.5 %}
-                                                        <img src="{{ url_for('static', filename='small_2_half.png') }}" alt="Yelp Stars">
-                                                    {% elif restaurant['rating'] == 3 %}
-                                                        <img src="{{ url_for('static', filename='small_3.png') }}" alt="Yelp Stars">
-                                                    {% elif restaurant['rating'] == 3.5 %}
-                                                        <img src="{{ url_for('static', filename='small_3_half.png') }}" alt="Yelp Stars">
-                                                    {% elif restaurant['rating'] == 4 %}
-                                                        <img src="{{ url_for('static', filename='small_4.png') }}" alt="Yelp Stars">
-                                                    {% elif restaurant['rating'] == 4.5 %}
-                                                        <img src="{{ url_for('static', filename='small_4_half.png') }}" alt="Yelp Stars">
-                                                    {% elif restaurant['rating'] == 5 %}
-                                                        <img src="{{ url_for('static', filename='small_5.png') }}" alt="Yelp Stars">
-                                                    {% endif %}
+                                                <input class="form-check-input me-1" type="radio" name="options" value="{{ loop.index }}">
+                                            </div>
+                                            <div class="col">
+                                                <div class="row">
+                                                    <div class="col-auto">
+                                                        <h5 class="mb-1">{{restaurant['name']}}</h5>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <p class="mb-1"> {{travelData[loop.index-1]['hours']}} hour(s), {{travelData[loop.index-1]["minutes"]}} minutes(s) away, {{travelData[loop.index-1]["distance"]}} mile(s)</p>
+                                                    </div>
                                                 </div>
-                                            </div>      
-                                            <div class="col-auto">
-                                                <p class="mb-1">{{restaurant['price']}}</p>
+                                                <div style="padding: 2px;"></div>
+                                                <div class="row align-items-center">
+                                                    <div class="col-auto">
+                                                        <div> 
+                                                            {% if restaurant['rating'] == 0 %}
+                                                                <img src="{{ url_for('static', filename='small_0.png') }}" alt="Yelp Stars">                                       
+                                                            {% elif restaurant['rating'] == 1 %}
+                                                                <img src="{{ url_for('static', filename='small_1.png') }}" alt="Yelp Stars">
+                                                            {% elif restaurant['rating'] == 1.5 %}
+                                                                <img src="{{ url_for('static', filename='small_1_half.png') }}" alt="Yelp Stars">
+                                                            {% elif restaurant['rating'] == 2 %}
+                                                                <img src="{{ url_for('static', filename='small_2.png') }}" alt="Yelp Stars">
+                                                            {% elif restaurant['rating'] == 2.5 %}
+                                                                <img src="{{ url_for('static', filename='small_2_half.png') }}" alt="Yelp Stars">
+                                                            {% elif restaurant['rating'] == 3 %}
+                                                                <img src="{{ url_for('static', filename='small_3.png') }}" alt="Yelp Stars">
+                                                            {% elif restaurant['rating'] == 3.5 %}
+                                                                <img src="{{ url_for('static', filename='small_3_half.png') }}" alt="Yelp Stars">
+                                                            {% elif restaurant['rating'] == 4 %}
+                                                                <img src="{{ url_for('static', filename='small_4.png') }}" alt="Yelp Stars">
+                                                            {% elif restaurant['rating'] == 4.5 %}
+                                                                <img src="{{ url_for('static', filename='small_4_half.png') }}" alt="Yelp Stars">
+                                                            {% elif restaurant['rating'] == 5 %}
+                                                                <img src="{{ url_for('static', filename='small_5.png') }}" alt="Yelp Stars">
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>      
+                                                    <div class="col-auto">
+                                                        <p class="mb-1">{{restaurant['price']}}</p>
+                                                    </div>
+                                                </div>
+                                                <div style="padding: 3px;"></div>
+                                                <small>Open: {{restaurant["hours"]["start"][0:2]}}:{{restaurant["hours"]["start"][2:4]}} - {{restaurant["hours"]["end"][0:2]}}:{{restaurant["hours"]["end"][2:4]}} | {{restaurant['address']}}, {{restaurant['city']}}, {{restaurant['state']}}</small>
                                             </div>
                                         </div>
-                                        <small>Open: <!-- insert yelp api hours data here --> | {{restaurant['address']}}</small>
-                                    </div>
-                                </div>
-                            </label>
-                        {% endfor %}
+                                    </label>
+                                {% endfor %}
+                            </div> 
 
-                    </div>        
-                    <div class="col-12 text-center">
-                        <div style="padding: 10px;"></div>
-                        <button id="secondSubmit" type="submit" class="btn btn-custom-color">Adventure time!</button>
+                            <div class="col-12 text-center">
+                                <div style="padding: 10px;"></div>
+                                <button id="secondSubmit" type="submit" class="btn btn-custom-color">Adventure time!</button>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
-            </div>
-        
-            <div class="col-12">
-                <div style="padding: 10px;"></div>
-            </div>
-    
-        </form>
-
+                    <div style="padding: 10px;"></div>
+                </form>
+            {% endif %}
         {% endif %}
-
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
