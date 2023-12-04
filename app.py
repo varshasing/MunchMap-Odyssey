@@ -12,7 +12,7 @@ app.secret_key = "hello"
 def index():
     today = datetime.date.today().isoformat()
     five_days_later = (datetime.date.today() + datetime.timedelta(days=5)).isoformat()
-
+    now = datetime.datetime.now()
     # Define your search term and coordinates
     
     search_term = "Italian" #Passed by front end
@@ -66,7 +66,7 @@ def index():
         
 
     
-    return render_template('index.html', min_date=today, max_date=five_days_later, restaurants=yelpList, formFilled=formFilled, travelData=travelData)
+    return render_template('index.html', min_date=today, max_date=five_days_later, timeNow = now, restaurants=yelpList, formFilled=formFilled, travelData=travelData)
 
 @app.route('/result', methods=['GET', 'POST'])
 def result():
@@ -95,7 +95,7 @@ def result():
     duration = (routeData["hours"]*60 + routeData["minutes"])*60
     data = get_weather(coords[0]["lat"], coords[0]["lng"], coords[4]["lat"], coords[4]["lng"], month, day, hr, minute, duration)
         
-    return render_template('result.html', data=data, session=session, hr=hr, minute=minute, option = option, restaurant=restaurant, routeData=routeData)
+    return render_template('result.html', data=data, session=session, hr=hr, minute=minute, option = option, restaurant=restaurant, routeData=routeData, coords=coords)
 
 if __name__ == '__main__':
     app.run(debug=True)
