@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Generator</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiGus_zgx-S8FzZKLFlidy8jFtsbrABhU&libraries=places"></script>
+</head>
+<body>
+    <h1>Map Generator</h1>
+    
+    <form id="mapForm" action="/" method="post">
+        <!-- You can keep the form if needed for other purposes -->
+        <!-- But for hardcoded values, you don't need user input -->
+    </form>
+
+    <div id="mapContainer" style="height: 400px;"></div>
+
+    <script>
+        // Hardcoded start, end, and waypoint coordinates
+        const startCoords = { lat: 42.349845, lng: -71.101715 };
+        const waypointCoords = { lat: 41.823989, lng: -71.412834 }; // Providence, RI as an example
+        const endCoords = { lat: 40.712776, lng: -75.005974 };
+
+        // Calculate the center point for better map initialization
+        const centerLat = (startCoords.lat + waypointCoords.lat + endCoords.lat) / 3;
+        const centerLng = (startCoords.lng + waypointCoords.lng + endCoords.lng) / 3;
+
+        // Initialize the map
+        const map = new google.maps.Map(document.getElementById('mapContainer'), {
+            center: { lat: centerLat, lng: centerLng },
+            zoom: 12,
+        });
+
+        // Initialize the Directions Service
+        const directionsService = new google.maps.DirectionsService();
+        const directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
+
+        // Request the directions with a waypoint
+        directionsService.route(
+            {
+                origin: startCoords,
+                destination: endCoords,
+                waypoints: [
+                    { location: waypointCoords, stopover: true }
+                ],
+                travelMode: 'DRIVING',
+            },
+            function (response, status) {
+                if (status === 'OK') {
+                    // Clear previous directions and markers
+                    directionsRenderer.setDirections({ routes: [] });
+                    clearMarkers();
+
+                    // Display the route on the map
+                    directionsRenderer.setDirections(response);
+
+                    // Show markers for start, waypoint, and end coordinates
+                    addMarker(startCoords, 'Start Coordinates', map);
+                    addMarker(waypointCoords, 'Waypoint Coordinates', map);
+                    addMarker(endCoords, 'End Coordinates', map);
+                } else {
+                    // Handle error
+                    console.error('Error calculating directions:', status);
+                }
+            }
+        );
+
+        function addMarker(position, title, map) {
+            new google.maps.Marker({
+                position: position,
+                map: map,
+                title: title,
+            });
+        }
+
+        function clearMarkers() {
+            // Implement logic to clear previous markers if needed
+        }
+    </script>
+</body>
+</html>
