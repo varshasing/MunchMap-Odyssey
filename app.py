@@ -95,7 +95,7 @@ def result():
     duration = (routeData["hours"]*60 + routeData["minutes"])*60
     data = get_weather(coords[0]["lat"], coords[0]["lng"], coords[4]["lat"], coords[4]["lng"], month, day, hr, minute, duration)
         
-    return render_template('result.html', data=data, session=session, hr=hr, minute=minute, option = option, restaurant=restaurant, routeData=routeData)
+    return render_template('result.html', data=data, session=session, hr=hr, minute=minute, option = option, restaurant=restaurant, routeData=routeData, coords=coords)
 
 if __name__ == '__main__':
     app.run(debug=True)

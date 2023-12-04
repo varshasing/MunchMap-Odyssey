@@ -4,7 +4,7 @@ import os
 from gmaps import get_two_point_data, split_coordinates
 
 load_dotenv()
-api_key = os.getenv("OLD_OLD_OLD_YELP_KEY")
+api_key = os.getenv("YELP_KEY")
 
 def get_coords(splittedList):
     lat = [splittedList[0]["lat"], splittedList[1]["lat"], splittedList[2]["lat"], splittedList[3]["lat"], splittedList[4]["lat"]]
@@ -49,24 +49,25 @@ def search_yelp(search_term, userPrice, latitude, longitude, radius=8000):
         list_three_hours.append(hours_search(api_key, i["id"]))
 
     # filter out results for each of the three different coordinate point lists that do not have hours of operation
-    for i in list_one_hours[:]:
-        if i is not None:
+    # for i, e in reversed(list(enumerate(list_one))):
+    for i, e in reversed(list(enumerate(list_one))):
+        if e is not None:
         # need to error check for object is NoneType, as it is not subscriptable and will throw an error
-            if i["start"] == "N/A":
+            if list_one[:-i]== "N/A":
                 list_one.remove(i)
                 list_one_hours.remove(i)
         else:
             break
-    for i in list_two_hours[:]:
-        if i is not None:
-            if i["start"] == "N/A":
+    for i, e in reversed(list(enumerate(list_two))):
+        if e is not None:
+            if list_two[:-i]== "N/A":
                 list_two.remove(i)
                 list_two_hours.remove(i)
         else:
             break
-    for i in list_three_hours[:]:
-        if i is not None:
-            if i["start"] == "N/A":
+    for i, e in reversed(list(enumerate(list_three))):
+        if e is not None:
+            if list_three[:-i]== "N/A":
                 list_three.remove(i)
                 list_three_hours.remove(i)
         else:
@@ -343,6 +344,6 @@ if __name__ == "__main__":
     restaurantList = search_yelp(search_term, userPrice, latitude, longitude)
     print(restaurantList)
     restaurants = singleList(restaurantList)
+    
     print(getRestaurantData(ny_coords, "2023-12-04", "13:00", restaurants))
-
     
