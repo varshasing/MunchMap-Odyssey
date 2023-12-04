@@ -70,7 +70,7 @@ def search_yelp(search_term, userPrice, latitude, longitude, radius=8000):
                 list_three.remove(i)
                 list_three_hours.remove(i)
         else:
-            break                
+            break 
     # need to append the list_hash_hours to each index of list_hash as 'hours':
     for i in range(len(list_one)):
         list_one[i]["hours"] = list_one_hours[i]
