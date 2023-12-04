@@ -221,15 +221,32 @@
                 function clearMarkers() {
                     // Implement logic to clear previous markers if needed
                 }
+
+                        // Function to open the generated map link in Google Maps
+                function openGoogleMaps() {
+                    const baseUrl = 'https://www.google.com/maps/dir/';
+                    const start = `${startCoords.lat},${startCoords.lng}`;
+                    const waypoint = `${waypointCoords.lat},${waypointCoords.lng}`;
+                    const end = `${endCoords.lat},${endCoords.lng}`;
+
+                    const googleMapsLink = `${baseUrl}${start}/${waypoint}/${end}`;
+                    window.open(googleMapsLink, '_blank');
+                }
             </script>
+
+            <div class="col-12 text-center">
+                <div style="padding: 20px;"></div>
+                <button onclick="openGoogleMaps()" class="btn btn-custom-color">Show Route</button>
+            </div>
+            
         </div>
-        <div style="padding: 20px;"></div>
 
           <!-- button to return to planner -->
         <div class="col-12 text-center">
-            <div style="padding: 10px;"></div>
+            <div style="padding: 20px;"></div>
                 <a href="/" class="btn btn-custom-color">Return to planner</a>
         </div>
+        
 
         <div style="padding: 20px;"></div>
     </div>

@@ -137,8 +137,16 @@
                 <div class="col-md-12 text-center">
                     <h5>Sorry, no restaurants were found. Please try again.</h5>
                 </div>
+        <!-- if starting time is before current time, throw an error -->
+            <!-- {% elif now %}
+                <div class="col-md-12 text-center">
+                    <h5>Sorry, the time you entered is before the current time. Please try again.</h5>
+                </div> -->
 
             {% else %}
+                <div class="col-md-12 text-center">
+                    <h5>What are you stopping for? {{request.form.get('departure_time', '')}}  {{now}}</h5> 
+                </div>
                 <!-- restaurant choices, a for loop iterating through yelpList -->
                 <form id="secondForm" action="/result" method="post" class="row justify-content-center">
                     <div class="col-md-7 mx-auto">
@@ -163,6 +171,7 @@
                                                 <div class="row align-items-center">
                                                     <div class="col-auto">
                                                         <div> 
+                                                            <!-- displaying yelp stars based on rating -->
                                                             {% if restaurant['rating'] == 0 %}
                                                                 <img src="{{ url_for('static', filename='small_0.png') }}" alt="Yelp Stars">                                       
                                                             {% elif restaurant['rating'] == 1 %}
