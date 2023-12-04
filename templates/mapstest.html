@@ -17,6 +17,8 @@
 
     <div id="mapContainer" style="height: 400px;"></div>
 
+    <button onclick="openGoogleMaps()">Open in Google Maps</button>
+
     <script>
         // Hardcoded start, end, and waypoint coordinates
         const startCoords = { lat: 42.349845, lng: -71.101715 };
@@ -77,6 +79,22 @@
 
         function clearMarkers() {
             // Implement logic to clear previous markers if needed
+        }
+
+        // Function to open the generated map link in Google Maps
+        function openGoogleMaps() {
+            const googleMapsLink = getGoogleMapsLink(startCoords, waypointCoords, endCoords);
+            window.open(googleMapsLink, '_blank');
+        }
+
+        // Function to generate the Google Maps link
+        function getGoogleMapsLink(startCoords, waypointCoords, endCoords) {
+            const baseUrl = 'https://www.google.com/maps/dir/';
+            const start = `${startCoords.lat},${startCoords.lng}`;
+            const waypoint = `${waypointCoords.lat},${waypointCoords.lng}`;
+            const end = `${endCoords.lat},${endCoords.lng}`;
+
+            return `${baseUrl}${start}/${waypoint}/${end}`;
         }
     </script>
 </body>
