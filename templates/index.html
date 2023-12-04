@@ -137,15 +137,10 @@
                 <div class="col-md-12 text-center">
                     <h5>Sorry, no restaurants were found. Please try again.</h5>
                 </div>
-        <!-- if starting time is before current time, throw an error -->
-            <!-- {% elif now %}
-                <div class="col-md-12 text-center">
-                    <h5>Sorry, the time you entered is before the current time. Please try again.</h5>
-                </div> -->
 
             {% else %}
                 <div class="col-md-12 text-center">
-                    <h5>What are you stopping for? {{request.form.get('departure_time', '')}}  {{now}}</h5> 
+                    <h5>What are you stopping for?</h5> 
                 </div>
                 <!-- restaurant choices, a for loop iterating through yelpList -->
                 <form id="secondForm" action="/result" method="post" class="row justify-content-center">
