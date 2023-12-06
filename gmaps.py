@@ -129,25 +129,6 @@ def get_route_data(start_coords, waypoint_coords, end_coords, departure_date, de
         return combined_data
 
 if __name__ == "__main__":
-    # # Get start and end addresses from user input
-    # start_address = input("Enter start point:\n")
-    # end_address = input("\nEnter end point:\n")
-
-    # # Get departure date from user input
-    # departure_date = input("\nEnter departure date (YYYY-MM-DD):\n")
-
-    # # Get departure time from user input
-    # departure_time = input("\nEnter departure time (14:00):\n")
-
-    # # Get waypoints from user input (comma-separated latitude,longitude pairs)
-    # waypoints_input = input("\nEnter waypoints (if any, comma-separated addresses):\n")
-    # waypoints = [waypoint.strip() for waypoint in waypoints_input.split(',') if waypoint.strip()]
-
-    # # Use get_directions_waypoint instead of get_directions
-    # coordinates_list = get_directions_waypoint(api_key, start_address, end_address, waypoints, departure_date, departure_time)
-
-    # if coordinates_list:
-    #     print(split_coordinates(start_address, end_address))
 
     gmaps = googlemaps.Client(key=api_key)
     coords = split_coordinates("New York", "Boston")
@@ -164,5 +145,5 @@ if __name__ == "__main__":
         "lat": 41.5382,
         "lng": 72.8070
     }
-    print(get_two_point_data(coords[0], meridan_coords, "2023-12-04", "06:00")) #BUG WHEN RUNNING SAN FRAN COORDS
+    print(get_two_point_data(coords[0], meridan_coords, "2023-12-04", "06:00"))
     print(get_route_data(coords[0], meridan_coords, coords[4], "2023-12-04", "06:00"))
