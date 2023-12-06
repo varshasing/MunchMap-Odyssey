@@ -39,102 +39,71 @@ def search_yelp(search_term, userPrice, latitude, longitude, radius=8000):
     list_one_hours = []
     list_two_hours = []
     list_three_hours = []
-    if list_one is None:
-        print("LIST ONE")
-        list_one = []
-    if list_two is None:
-        print("LIST TWO")
-        list_two = []
-    if list_three is None:
-        print("LIST THREE")
-        list_three = []
+
     # store the hours of operation for each of the different coordinate point's top 3 results
-    if list_one is not None:
-        for i in list_one:
-            list_one_hours.append(hours_search(api_key, i["id"]))
-    if list_two is not None:
-        for i in list_two:
-            list_two_hours.append(hours_search(api_key, i["id"]))
-    if list_three is not None:
-        for i in list_three:
-            list_three_hours.append(hours_search(api_key, i["id"]))
+    for i in list_one:
+        list_one_hours.append(hours_search(api_key, i["id"]))
+    for i in list_two:
+        list_two_hours.append(hours_search(api_key, i["id"]))
+    for i in list_three:
+        list_three_hours.append(hours_search(api_key, i["id"]))
 
     # filter out results for each of the three different coordinate point lists that do not have hours of operation
-    # for i, e in reversed(list(enumerate(list_one))):
-    if list_one is not None:
-        for i, e in reversed(list(enumerate(list_one))):
-            if e is not None:
+    for i in list_one_hours[:]:
+        if i is not None:
         # need to error check for object is NoneType, as it is not subscriptable and will throw an error
-                if list_one[:-i]== "N/A":
-                    list_one.remove(i)
-                    list_one_hours.remove(i)
-            else:
-                break
-    if list_two is not None:
-        for i, e in reversed(list(enumerate(list_two))):
-            if e is not None:
-                if list_two[:-i]== "N/A":
-                    list_two.remove(i)
-                    list_two_hours.remove(i)
-            else:
-                break
-    if list_three is not None:
-        for i, e in reversed(list(enumerate(list_three))):
-            if e is not None:
-                if list_three[:-i]== "N/A":
-                    list_three.remove(i)
-                    list_three_hours.remove(i)
-            else:
-             break                
+            if i["start"] == "N/A":
+                list_one.remove(i)
+                list_one_hours.remove(i)
+        else:
+            break
+    for i in list_two_hours[:]:
+        if i is not None:
+            if i["start"] == "N/A":
+                list_two.remove(i)
+                list_two_hours.remove(i)
+        else:
+            break
+    for i in list_three_hours[:]:
+        if i is not None:
+            if i["start"] == "N/A":
+                list_three.remove(i)
+                list_three_hours.remove(i)
+        else:
+            break                
     # need to append the list_hash_hours to each index of list_hash as 'hours':
-    if list_one is not None:
-        for i in range(len(list_one)):
-            if list_one[i] is not None:
-                list_one[i]["hours"] = list_one_hours[i]
-    if list_two is not None:
-        for i in range(len(list_two)):
-            if list_two[i] is not None:
-                list_two[i]["hours"] = list_two_hours[i]
-    if list_three is not None:
-        for i in range(len(list_three)):
-            if list_three[i] is not None:
-                list_three[i]["hours"] = list_three_hours[i]
+    for i in range(len(list_one)):
+        list_one[i]["hours"] = list_one_hours[i]
+    for i in range(len(list_two)):
+        list_two[i]["hours"] = list_two_hours[i]
+    for i in range(len(list_three)):
+        list_three[i]["hours"] = list_three_hours[i]
 
-    for i in list_one:
-        if i["hours"] is None:
-            list_one.remove(i)
-    for i in list_two:
-        if i["hours"] is None:
-            list_two.remove(i)
-    for i in list_three:
-        if i["hours"] is None:
-            list_three.remove(i)
+    
+
     # most ideal case, where all three lists have at least one entry. append the LAST entry for every list to the final list
     retList = []
-    if list_one is not None and list_two is not None and list_three is not None:
-        if len(list_one) > 0 and len(list_two) > 0 and len(list_three) > 0:
-            retList.append(list_one[-1])
-            retList.append(list_two[-1])
-            retList.append(list_three[-1])
-            return retList
+    if len(list_one) > 0 and len(list_two) > 0 and len(list_three) > 0:
+        retList.append(list_one[-1])
+        retList.append(list_two[-1])
+        retList.append(list_three[-1])
+        return retList
     
-        # unideal case, all lists are empty and user has to redo their search
-        if len(list_one) == 0 and len(list_two) == 0 and len(list_three) == 0:
-            print("No results found, all lists are empty")
-            return retList
+    # unideal case, all lists are empty and user has to redo their search
+    if len(list_one) == 0 and len(list_two) == 0 and len(list_three) == 0:
+        print("No results found, all lists are empty")
+        return retList
     
     # check if any of the two lists are empty. If they both are empty, return whatever I have from the non-empty list
-        if len(list_one) == 0 and len(list_two) == 0:
-            retList.append(list_three)
-            return retList
-        elif len(list_one) == 0 and len(list_three) == 0:
-            retList.append(list_two)
-            return retList
-        elif len(list_two) == 0 and len(list_three) == 0:
-            retList.append(list_one)
-            return retList
-    else:
-        return retList #empty list
+    if len(list_one) == 0 and len(list_two) == 0:
+        retList.append(list_three)
+        return retList
+    elif len(list_one) == 0 and len(list_three) == 0:
+        retList.append(list_two)
+        return retList
+    elif len(list_two) == 0 and len(list_three) == 0:
+        retList.append(list_one)
+        return retList
     
     # three other cases, for each of the lists being empty. Each has 4 different possibilities, depending on how many entries are in the other lists
     # two coming from one list; three coming from one list. Then account for there not being three entries in the other two lists, appending and returning what you can.
@@ -339,10 +308,6 @@ def singleList(restaurant_list):
     # for i in range(len(single_list)):
     #     if single_list[i] not in single_list[i + 1:]:
     #         final_list.append(single_list[i])
-    # want to check if key "hours" exists in each of the dictionaries in the list. If it does not, remove it from the list
-    for i in final_list:
-        if i["hours"] == "N/A" or i["hours"] == ["None"] or i["hours"] == []:
-            final_list.remove(i)
     return final_list
 
 
@@ -378,5 +343,7 @@ if __name__ == "__main__":
     restaurantList = search_yelp(search_term, userPrice, latitude, longitude)
     print(restaurantList)
     restaurants = singleList(restaurantList)
-    
+
     print(getRestaurantData(ny_coords, "2023-12-04", "13:00", restaurants))
+
+    
