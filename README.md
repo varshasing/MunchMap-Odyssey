@@ -1,8 +1,9 @@
 
 ![Logo](/static/bannar1.png)
 
-
-# MunchMap Odyssey
+<h1 align="center">
+MunchMap Odyssey
+</h1>
 
 A road trip planner designed for food enthusiasts developed by Peter Zhao, Sienna Chien, Varsha Singh, and Jason Jiang
 
