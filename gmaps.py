@@ -10,7 +10,6 @@ def geocode_address(gmaps, address):
         print(f"Geocoding failed for address: {address}")
         return None
     location = geocode_result[0]['geometry']['location']
-    # print(f"Coordinates for {address}: {location}")
     return location
 
 def split_coordinates(start_address, end_address):
@@ -46,7 +45,7 @@ def split_coordinates(start_address, end_address):
 
     five_coord_list = [start_point, part1, part2, part3, end_point]
 
-    # write code that will return a list of 5 coordinates, each coordinate being a dictionary with keys "lat" and "lng" from five_coord_list
+    #return a list of 5 coordinates, each coordinate being a dictionary with keys "lat" and "lng" from five_coord_list
     five_coord_list[0] = {"lat": five_coord_list[0][0], "lng": five_coord_list[0][1]}
     five_coord_list[1] = {"lat": five_coord_list[1][0], "lng": five_coord_list[1][1]}
     five_coord_list[2] = {"lat": five_coord_list[2][0], "lng": five_coord_list[2][1]}
@@ -83,25 +82,17 @@ def get_two_point_data(start_coords, end_coords, departure_date, departure_time)
 
         route = directions_result[0]['legs'][0]
 
-        # print(f"\nFrom {start} to {end}:")
-        # print("Distance:", route['distance']['text'])
-
         total_distance += route['distance']['value']
 
         # Check if 'duration_in_traffic' is available
         if 'duration_in_traffic' in route:
             duration_traffic = route['duration_in_traffic']['value']
             total_duration_traffic += duration_traffic
-            # print("Est. Time Duration (w/ traffic): ", route['duration_in_traffic']['text'])
         else:
             duration = route['duration']['value']
             total_duration_traffic += duration
-            # print("Est. Time Duration: ", route['duration']['text'])
 
-    # Print total duration and distance
     total_duration_hours, total_duration_minutes = divmod(total_duration_traffic // 60, 60)
-    # print(f"\nTotal Duration (w/ traffic): {total_duration_hours} hours {total_duration_minutes} minutes")
-    # print(f"Total Distance: {total_distance / 1609.34} mi")  # Convert meters to miles
 
     trip_dict = {
         "distance": round(total_distance / 1609.34,1),  # Convert meters to miles
@@ -121,8 +112,8 @@ def get_route_data(start_coords, waypoint_coords, end_coords, departure_date, de
             "distance": round(start_to_waypoint["distance"] + waypoint_to_end["distance"], 1),
             "hours": start_to_waypoint["hours"] + waypoint_to_end["hours"],
             "minutes": start_to_waypoint["minutes"] + waypoint_to_end["minutes"]
-            #need to implement minutes overflow
         }
+        #minutes overflow
         if combined_data["minutes"] >= 60:
             combined_data["hours"] += 1
             combined_data["minutes"] -= 60
@@ -130,6 +121,7 @@ def get_route_data(start_coords, waypoint_coords, end_coords, departure_date, de
 
 if __name__ == "__main__":
 
+    #test code
     gmaps = googlemaps.Client(key=api_key)
     coords = split_coordinates("New York", "Boston")
     rest_coords = {

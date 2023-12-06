@@ -165,7 +165,7 @@
 
             {% if option %}
                 <script>
-                    // Hardcoded start, end, and waypoint coordinates
+                    // input start, end, and waypoint coordinates
                     const startCoords = { lat: {{coords[0]["lat"]}}, lng: {{coords[0]["lng"]}} };
                     const waypointCoords = { lat: {{restaurant["coordinates"]["latitude"]}}, lng: {{restaurant["coordinates"]["longitude"]}} };
                     const endCoords = { lat: {{coords[4]["lat"]}}, lng: {{coords[4]["lng"]}} };
@@ -198,7 +198,6 @@
                             if (status === 'OK') {
                                 // Clear previous directions and markers
                                 directionsRenderer.setDirections({ routes: [] });
-                                clearMarkers();
 
                                 // Display the route on the map
                                 directionsRenderer.setDirections(response);
@@ -219,11 +218,7 @@
                         });
                     }
 
-                    function clearMarkers() {
-                        // Implement logic to clear previous markers if needed
-                    }
-
-                            // Function to open the generated map link in Google Maps
+                    // Function to open the generated map link in Google Maps
                     function openGoogleMaps() {
                         const baseUrl = 'https://www.google.com/maps/dir/';
                         const start = `${startCoords.lat},${startCoords.lng}`;
@@ -234,9 +229,10 @@
                         window.open(googleMapsLink, '_blank');
                     }
                 </script>
+
             {%else%}
                 <script>
-                    // Hardcoded start, end, and waypoint coordinates
+                    // input start, end, and waypoint coordinates
                     const startCoords = { lat: {{coords[0]["lat"]}}, lng: {{coords[0]["lng"]}} };
                     const endCoords = { lat: {{coords[4]["lat"]}}, lng: {{coords[4]["lng"]}} };
 
@@ -267,7 +263,6 @@
                             if (status === 'OK') {
                                 // Clear previous directions and markers
                                 directionsRenderer.setDirections({ routes: [] });
-                                clearMarkers();
 
                                 // Display the route on the map
                                 directionsRenderer.setDirections(response);
@@ -286,10 +281,6 @@
                             map: map,
                             title: title,
                         });
-                    }
-
-                    function clearMarkers() {
-                        // Implement logic to clear previous markers if needed
                     }
 
                             // Function to open the generated map link in Google Maps

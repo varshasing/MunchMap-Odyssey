@@ -57,6 +57,7 @@ def get_forecast(lat, lon, API_key, dt):
     resp = requests.get(f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API_key}&units=imperial").json()
     forecast = resp.get('list')[0]
     min = 999999999999999999999
+    #finds closest datetime in the forecast to the given datetime
     for e in resp.get('list'):
         if (abs(e.get('dt')-dt) < min):
             forecast = e
@@ -79,20 +80,16 @@ def get_dt(month, day, hr, min):
     time = int((dt_utc - datetime(1970,1,1,tzinfo=timezone.utc))/timedelta(seconds=1))
     return time+18000
     
-def main2(start_lat, start_lon, end_lat, end_lon, month, day, hr, minute, duration):
+def get_weather(start_lat, start_lon, end_lat, end_lon, month, day, hr, minute, duration):
     data = FinalData(
         startData = get_forecast(start_lat, start_lon, api_key, get_dt(month, day, hr, minute)),
         endData = get_forecast(end_lat, end_lon, api_key, get_dt(month, day, hr, minute)+duration)
     )
     return data
     
-    
 def main(city_name, state_name, country_name):
     lat, lon = get_lat_lon(city_name, state_name, country_name, api_key)
     return get_data(lat, lon, api_key)
-
-# 2023-12-05
-# 09:35
 
 def getDate(dateStr):
     x = dateStr.split("-")
@@ -106,6 +103,7 @@ def getTime(timeStr):
 
 if __name__ == "__main__":
     
+    #test code
     start_lat, start_lon = get_lat_lon('Boston', 'MA', 'US', api_key)
     end_lat, end_lon = get_lat_lon('New York', 'NY', 'US', api_key)
     
@@ -113,7 +111,7 @@ if __name__ == "__main__":
     print(get_lat_lon('New York', 'NY', 'US', api_key))
     
     
-    print(main2(start_lat, start_lon, end_lat, end_lon, 12, 4, 4, 53, 0))
+    print(get_weather(start_lat, start_lon, end_lat, end_lon, 12, 4, 4, 53, 0))
     print(get_dt(12, 4, 4, 53))
     
     print(getDate('2023-12-05'))
